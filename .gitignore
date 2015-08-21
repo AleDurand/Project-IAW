@@ -3,8 +3,8 @@ Proyect/build
 Proyect/bin
 Proyect/.project
 Proyect/.settings
-.classpath
-.proyect
+Proyect/.classpath
+
 # Ignore Gradle GUI config
 Proyect/gradle-app.setting
 
