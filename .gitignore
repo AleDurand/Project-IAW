@@ -1,9 +1,15 @@
 Proyect/.gradle
 Proyect/build
 Proyect/bin
+
+# Ignore Eclipse files
 Proyect/.project
 Proyect/.settings
 Proyect/.classpath
+
+# Ignore Idea files
+Proyect/Proyect.iml
+Proyect/.idea
 
 # Ignore Gradle GUI config
 Proyect/gradle-app.setting
