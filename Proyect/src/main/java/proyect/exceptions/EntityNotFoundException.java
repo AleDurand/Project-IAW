@@ -4,7 +4,7 @@ package proyect.exceptions;
 public class EntityNotFoundException extends Exception {
 
 	public EntityNotFoundException() {
-		super("User not found.");
+		super("Entity not found.");
 	}
 	
 }

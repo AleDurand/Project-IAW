@@ -4,6 +4,6 @@ package proyect.exceptions;
 public class EntityAlreadyExistsException extends Exception {
 	
 	public EntityAlreadyExistsException() {
-		super("User already exists.");
+		super("Entity already exists.");
 	}
 }
