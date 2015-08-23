@@ -10,6 +10,8 @@ Proyect/.classpath
 # Ignore Idea files
 Proyect/Proyect.iml
 Proyect/.idea
+Proyect/Proyect.ipr
+Proyect/Proyect.iws
 
 # Ignore Gradle GUI config
 Proyect/gradle-app.setting
