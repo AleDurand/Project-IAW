@@ -5,8 +5,8 @@ import org.springframework.stereotype.Repository;
 import proyect.model.Commerce;
 
 @Repository
-public interface CommerceRepository extends JpaRepository<Commerce, Long>{
-	
-	public Commerce findById(long id);
+public interface CommerceRepository extends JpaRepository<Commerce, Long> {
+
+	public Commerce findById( Long id );
 
 }
