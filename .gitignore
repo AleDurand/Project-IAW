@@ -1,20 +1,20 @@
-Proyect/.gradle
-Proyect/build
-Proyect/bin
+Project/.gradle
+Project/build
+Project/bin
 
 # Ignore Eclipse files
-Proyect/.project
-Proyect/.settings
-Proyect/.classpath
+Project/.project
+Project/.settings
+Project/.classpath
 
 # Ignore Idea files
-Proyect/Proyect.iml
-Proyect/.idea
-Proyect/Proyect.ipr
-Proyect/Proyect.iws
+Project/Proyect.iml
+Project/.idea
+Project/Proyect.ipr
+Project/Proyect.iws
 
 # Ignore Gradle GUI config
-Proyect/gradle-app.setting
+Project/gradle-app.setting
 
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar
