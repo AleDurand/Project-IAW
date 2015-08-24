@@ -17,8 +17,7 @@ public class CommerceServiceImplementation implements CommerceService {
 	private CommerceRepository commerceRepository;
 
 	@Override
-	public Commerce create( Commerce commerce ) throws EntityAlreadyExistsException {
-		if (commerceRepository.findById(commerce.getId()) != null) throw new EntityAlreadyExistsException();
+	public Commerce create( Commerce commerce ) {
 		return commerceRepository.save(commerce);
 	}
 

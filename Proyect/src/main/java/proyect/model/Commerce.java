@@ -3,7 +3,9 @@ package proyect.model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -12,20 +14,28 @@ import javax.persistence.Table;
 @ApiModel(value = "Commerce", description = "Commerce representation")
 public class Commerce {
 	@Id
-	@ApiModelProperty(value = "Commerce's id", required = true)
-	private Long	id;
-	@ApiModelProperty(value = "Commerce's name", required = true)
-	private String	name;
-	@ApiModelProperty(value = "Commerce's description", required = true)
-	private String	description;
-	@ApiModelProperty(value = "Commerce's web url", required = true)
-	private String	web;
+	@GeneratedValue
+	@Column(name = "id")
+	@ApiModelProperty(value = "Commerce id", required = true)
+	private Long id;
+
+	@Column(name = "name")
+	@ApiModelProperty(value = "Commerce name", required = true)
+	private String name;
+
+	@Column(name = "description")
+	@ApiModelProperty(value = "Commerce description", required = true)
+	private String description;
+
+	@Column(name = "web")
+	@ApiModelProperty(value = "Commerce web url", required = true)
+	private String web;
 
 	public Commerce() {
 
 	}
 
-	public Commerce( long id , String name , String description , String web ) {
+	public Commerce( Long id , String name , String description , String web ) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -37,7 +47,7 @@ public class Commerce {
 		return id;
 	}
 
-	public void setId( long id ) {
+	public void setId( Long id ) {
 		this.id = id;
 	}
 

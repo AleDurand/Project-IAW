@@ -8,7 +8,7 @@ import proyect.model.Commerce;
 
 public interface CommerceService {
 
-	public Commerce create(Commerce commerce) throws EntityAlreadyExistsException;
+	public Commerce create(Commerce commerce);
 
 	public Commerce read(Long id) throws EntityNotFoundException;
 

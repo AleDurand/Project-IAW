@@ -35,12 +35,8 @@ public class CommerceController {
 		    notes = "nothing", 
 		    response = Commerce.class
 		)
-	@ApiResponses( {
-	    @ApiResponse( code = 400, message = "Commerce already exists." )    
-	} )
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-	public ResponseEntity<Commerce> create(@RequestBody Commerce commerce)
-			throws EntityAlreadyExistsException {
+	public ResponseEntity<Commerce> create(@RequestBody Commerce commerce){
 		Commerce toReturn = commerceService.create(commerce);
 		return new ResponseEntity<Commerce>(toReturn, HttpStatus.OK);
 	}
