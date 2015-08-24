@@ -9,6 +9,7 @@ buildscript {
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.5.RELEASE")
         classpath("mysql:mysql-connector-java:5.1.36") 
+        classpath('org.asciidoctor:asciidoctor-gradle-plugin:1.5.2')
     }
 }
 
@@ -17,6 +18,8 @@ apply plugin: 'eclipse-wtp'
 apply plugin: 'idea'
 apply plugin: 'spring-boot' 
 apply plugin: 'war'
+
+apply plugin: 'org.asciidoctor.convert'
 
 
 war {
@@ -42,6 +45,8 @@ dependencies {
     compile("io.springfox:springfox-swagger2:2.2.0")
     compile("mysql:mysql-connector-java:5.1.36")
     testCompile("junit:junit:4.12")
+    compile("org.springframework:spring-test:4.2.0.RELEASE")
+    compile('io.github.robwin:swagger2markup:0.7.1')
 }
 
 
@@ -61,4 +66,27 @@ idea {
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.6'
+}
+
+//For generate pdf documentation
+
+ext {  
+    generatedDocumentation = file('src/docs/pdf/generated')
+}
+
+asciidoctor {  
+    dependsOn test
+    sources {
+        include 'index.adoc'
+        include 'definition.adoc'
+        include 'overview.adoc'
+        include 'paths.adoc'
+    }
+    backends = ['pdf']
+    attributes = [
+            toc: 'left',
+            toclevels: '2',
+            numbered: '',
+            generated: generatedDocumentation
+    ]
 }
