@@ -10,6 +10,7 @@ buildscript {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.5.RELEASE")
         classpath("mysql:mysql-connector-java:5.1.36") 
         classpath('org.asciidoctor:asciidoctor-gradle-plugin:1.5.2')
+        classpath('org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.6')
     }
 }
 
@@ -25,6 +26,10 @@ apply plugin: 'org.asciidoctor.convert'
 war {
     baseName = 'proyect'
     version = '0.0.1-SNAPSHOT'
+    dependsOn asciidoctor
+    from ("${asciidoctor.outputDir}/pdf") {
+        into 'static/docs'
+    }
 }
 
 sourceCompatibility = 1.8
@@ -71,22 +76,27 @@ task wrapper(type: Wrapper) {
 //For generate pdf documentation
 
 ext {  
-    generatedDocumentation = file('src/docs/pdf/generated')
+    generatedDocumentation = file('src/docs/asciidoc/generated')
+}
+
+test {
+    outputs.dir generatedDocumentation
 }
 
 asciidoctor {  
     dependsOn test
     sources {
         include 'index.adoc'
-        include 'definition.adoc'
-        include 'overview.adoc'
-        include 'paths.adoc'
     }
     backends = ['pdf']
     attributes = [
+            doctype: 'book',
             toc: 'left',
             toclevels: '2',
             numbered: '',
+            sectlinks: '',
+            sectanchors: '',
+            hardbreaks: '',
             generated: generatedDocumentation
     ]
 }

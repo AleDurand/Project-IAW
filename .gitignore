@@ -1,7 +1,7 @@
 Project/.gradle
 Project/build
 Project/bin
-Project/src/docs
+Project/src/docs/asciidoc/generated
 
 # Ignore Eclipse files
 Project/.project
