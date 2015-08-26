@@ -11,6 +11,8 @@ buildscript {
         classpath("mysql:mysql-connector-java:5.1.36") 
         classpath('org.asciidoctor:asciidoctor-gradle-plugin:1.5.2')
         classpath('org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.6')
+        classpath('io.github.robwin:swagger2markup:0.8.0')
+        classpath 'io.github.robwin:swagger2markup-gradle-plugin:0.8.0'
     }
 }
 
@@ -19,17 +21,12 @@ apply plugin: 'eclipse-wtp'
 apply plugin: 'idea'
 apply plugin: 'spring-boot' 
 apply plugin: 'war'
-
 apply plugin: 'org.asciidoctor.convert'
-
+apply plugin: 'io.github.robwin.swagger2markup'
 
 war {
     baseName = 'proyect'
     version = '0.0.1-SNAPSHOT'
-    dependsOn asciidoctor
-    from ("${asciidoctor.outputDir}/pdf") {
-        into 'static/docs'
-    }
 }
 
 sourceCompatibility = 1.8
@@ -49,9 +46,6 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-data-rest")
     compile("io.springfox:springfox-swagger2:2.2.0")
     compile("mysql:mysql-connector-java:5.1.36")
-    testCompile("junit:junit:4.12")
-    compile("org.springframework:spring-test:4.2.0.RELEASE")
-    compile('io.github.robwin:swagger2markup:0.7.1')
 }
 
 
@@ -75,16 +69,23 @@ task wrapper(type: Wrapper) {
 
 //For generate pdf documentation
 
-ext {  
-    generatedDocumentation = file('src/docs/asciidoc/generated')
+ext {
+    swaggerOutputDir = file("src/docs/swagger")
+    asciiDocOutputDir = file('src/docs/asciidoc/generated')
 }
 
-test {
-    outputs.dir generatedDocumentation
+convertSwagger2markup {
+    doFirst {
+    	// levantar el server
+    }
+    // copy swagger-json to swaggerOutputDir
+    doLast {
+    	// bajar el server
+    }
 }
 
 asciidoctor {  
-    dependsOn test
+    dependsOn convertSwagger2markup
     sources {
         include 'index.adoc'
     }
@@ -97,6 +98,14 @@ asciidoctor {
             sectlinks: '',
             sectanchors: '',
             hardbreaks: '',
-            generated: generatedDocumentation
+            generated: asciiDocOutputDir
     ]
+}
+
+task generateStaticDocumentation {
+	dependsOn asciidoctor
+	print "${asciidoctor.outputDir}"
+	from ("${asciidoctor.outputDir}/pdf") {
+        into 'static/docs'
+    }
 }
