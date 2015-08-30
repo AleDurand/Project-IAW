@@ -9,10 +9,10 @@ Project/.settings
 Project/.classpath
 
 # Ignore Idea files
-Project/Proyect.iml
+Project/Project.iml
 Project/.idea
-Project/Proyect.ipr
-Project/Proyect.iws
+Project/Project.ipr
+Project/Project.iws
 
 # Ignore Gradle GUI config
 Project/gradle-app.setting

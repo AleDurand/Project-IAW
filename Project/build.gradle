@@ -24,7 +24,7 @@ apply plugin: 'org.asciidoctor.convert'
 
 
 war {
-    baseName = 'proyect'
+    baseName = 'project'
     version = '0.0.1-SNAPSHOT'
     dependsOn asciidoctor
     from ("${asciidoctor.outputDir}/pdf") {
