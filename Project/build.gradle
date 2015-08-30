@@ -30,7 +30,7 @@ apply plugin: 'jetty'
 mainClassName = "project.ProjectApplication"
 
 war {
-    baseName = 'proyect'
+    baseName = 'project'
     version = '0.0.1-SNAPSHOT'
 }
 
@@ -76,15 +76,15 @@ task wrapper(type: Wrapper) {
 //For generate PDF
 
 ext {
-	jsonInputPath = 'http//localhost:8888/swagger.json'
+	jsonInputPath = "http//localhost:8080/swagger.json"
     swaggerOutputDir = file("src/docs/swagger")
-    swaggerOutputFile = 'swagger.json'
-    asciiDocOutputDir = file('src/docs/asciidoc/generated')
+    swaggerOutputFile = "swagger.json"
+    asciiDocOutputDir = file("src/docs/asciidoc/generated")
 }
 
 task getSwaggerJson(dependsOn: 'classes', type: JavaExec) {
 	doFirst {
-		[jettyRun,jettyStop]*.stopPort = 8081
+		[jettyRun,jettyStop]*.stopPort = 8080
 		[jettyRun,jettyStop]*.stopKey = 'stopKey'
         jettyRun.daemon = true
         jettyRun.webAppSourceDirectory = file("src/main/resources/public")
@@ -100,7 +100,8 @@ task getSwaggerJson(dependsOn: 'classes', type: JavaExec) {
 
 convertSwagger2markup {
     dependsOn getSwaggerJson
-    inputDir file('src/docs/swagger')
+    inputDir swaggerOutputDir
+    outputDir asciiDocOutputDir
 }
 
 asciidoctor {  
@@ -123,7 +124,4 @@ asciidoctor {
 
 task generateStaticDocumentation {
 	dependsOn asciidoctor
-	from ("${asciidoctor.outputDir}/pdf") {
-        into 'static/docs'
-    }
 }

@@ -43,6 +43,7 @@ public class SwaggerJson {
 			br.close();
 		
 		} catch (IOException e) {
+			e.printStackTrace();
 			System.out.println("Error: Cannot create swagger json file");
 		}
 	}

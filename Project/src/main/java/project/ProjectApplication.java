@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan
-@EnableAutoConfiguration 
+@EnableAutoConfiguration
 public class ProjectApplication {
 
     public static void main(String[] args) {
