@@ -3,10 +3,16 @@ package project.models;
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "real_state_agent")
 public class RealStateAgentModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -27,17 +33,22 @@ public class RealStateAgentModel implements Serializable {
 	@Column(name = "email")
 	private String email;
 
+	@OneToOne
+	@JoinColumn(name = "user_id", unique=true)
+	private UserModel user;
+
 	public RealStateAgentModel() {
 
 	}
 
-	public RealStateAgentModel(Integer id, String name, String description, String web, String email) {
+	public RealStateAgentModel(Integer id, String name, String description, String web, String email, UserModel user) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.web = web;
 		this.email = email;
+		this.user = user;
 	}
 
 	public Integer getId() {
@@ -78,6 +89,14 @@ public class RealStateAgentModel implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public UserModel getUser() {
+		return user;
+	}
+
+	public void setUser(UserModel user) {
+		this.user = user;
 	}
 
 }
