@@ -45,6 +45,7 @@ CREATE TABLE IF NOT EXISTS `real_state_agent_db`.`real_state_agent` (
   PRIMARY KEY (`id`, `user_id`)  COMMENT '',
   UNIQUE INDEX `name_UNIQUE` (`name` ASC)  COMMENT '',
   INDEX `fk_real_state_agent_user1_idx` (`user_id` ASC)  COMMENT '',
+  UNIQUE INDEX `user_id_UNIQUE` (`user_id` ASC)  COMMENT '',
   CONSTRAINT `fk_real_state_agent_user1`
     FOREIGN KEY (`user_id`)
     REFERENCES `real_state_agent_db`.`user` (`id`)
@@ -80,10 +81,8 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `real_state_agent_db`.`geo_location` ;
 
 CREATE TABLE IF NOT EXISTS `real_state_agent_db`.`geo_location` (
-  `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
   `latitude` INT NOT NULL COMMENT '',
-  `longitude` INT NOT NULL COMMENT '',
-  PRIMARY KEY (`id`)  COMMENT '')
+  `longitude` INT NOT NULL COMMENT '')
 ENGINE = InnoDB;
 
 
@@ -93,28 +92,10 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `real_state_agent_db`.`address` ;
 
 CREATE TABLE IF NOT EXISTS `real_state_agent_db`.`address` (
-  `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
   `street` VARCHAR(45) NOT NULL COMMENT '',
   `suite` VARCHAR(45) NULL COMMENT '',
   `city` VARCHAR(45) NOT NULL COMMENT '',
-  `zip_code` INT NOT NULL COMMENT '',
-  `office_id` INT NOT NULL COMMENT '',
-  `office_real_state_agent_id` INT NOT NULL COMMENT '',
-  `office_real_state_agent_user_id` INT NOT NULL COMMENT '',
-  `geo_location_id` INT NOT NULL COMMENT '',
-  PRIMARY KEY (`id`, `office_id`, `office_real_state_agent_id`, `office_real_state_agent_user_id`, `geo_location_id`)  COMMENT '',
-  INDEX `fk_address_office1_idx` (`office_id` ASC, `office_real_state_agent_id` ASC, `office_real_state_agent_user_id` ASC)  COMMENT '',
-  INDEX `fk_address_geo_location1_idx` (`geo_location_id` ASC)  COMMENT '',
-  CONSTRAINT `fk_address_office1`
-    FOREIGN KEY (`office_id` , `office_real_state_agent_id` , `office_real_state_agent_user_id`)
-    REFERENCES `real_state_agent_db`.`office` (`id` , `real_state_agent_id` , `real_state_agent_user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_address_geo_location1`
-    FOREIGN KEY (`geo_location_id`)
-    REFERENCES `real_state_agent_db`.`geo_location` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  `zip_code` INT NOT NULL COMMENT '')
 ENGINE = InnoDB;
 
 
@@ -164,8 +145,8 @@ CREATE TABLE IF NOT EXISTS `real_state_agent_db`.`property` (
   INDEX `fk_property_property_category1_idx` (`property_category_id` ASC)  COMMENT '',
   INDEX `fk_property_photo1_idx` (`photo_id` ASC)  COMMENT '',
   CONSTRAINT `fk_property_real_state_agent1`
-    FOREIGN KEY (`real_state_agent_id` , `real_state_agent_user_id`)
-    REFERENCES `real_state_agent_db`.`real_state_agent` (`id` , `user_id`)
+    FOREIGN KEY (`real_state_agent_id`)
+    REFERENCES `real_state_agent_db`.`real_state_agent` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_property_property_category1`

@@ -31,7 +31,6 @@ public class OfficeServiceImplementation implements OfficeService{
 		OfficeModel toReturn = officeRepository.findById(id);
 		toReturn.setName(office.getName());
 		toReturn.setPhone(office.getPhone());
-		toReturn.setRealStateAgent(office.getRealStateAgent());
 
 		officeRepository.save(toReturn);
 		return toReturn;

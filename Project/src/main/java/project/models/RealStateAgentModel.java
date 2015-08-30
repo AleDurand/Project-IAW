@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "real_state_agent")
 public class RealStateAgentModel implements Serializable {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -429153276492199091L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +34,7 @@ public class RealStateAgentModel implements Serializable {
 	private String email;
 
 	@OneToOne
-	@JoinColumn(name = "user_id", unique=true)
+	@JoinColumn(name = "user_id", unique = true)
 	private UserModel user;
 
 	public RealStateAgentModel() {
