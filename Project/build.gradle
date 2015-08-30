@@ -9,10 +9,11 @@ buildscript {
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.5.RELEASE")
         classpath("mysql:mysql-connector-java:5.1.36") 
+        //For generate PDF
         classpath('org.asciidoctor:asciidoctor-gradle-plugin:1.5.2')
         classpath('org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.6')
         classpath('io.github.robwin:swagger2markup:0.8.0')
-        classpath 'io.github.robwin:swagger2markup-gradle-plugin:0.8.0'
+        classpath('io.github.robwin:swagger2markup-gradle-plugin:0.8.0')
     }
 }
 
@@ -21,8 +22,12 @@ apply plugin: 'eclipse-wtp'
 apply plugin: 'idea'
 apply plugin: 'spring-boot' 
 apply plugin: 'war'
+//For generate PDF
 apply plugin: 'org.asciidoctor.convert'
 apply plugin: 'io.github.robwin.swagger2markup'
+apply plugin: 'jetty'
+
+mainClassName = "project.ProjectApplication"
 
 war {
     baseName = 'proyect'
@@ -67,21 +72,33 @@ task wrapper(type: Wrapper) {
     gradleVersion = '2.6'
 }
 
-//For generate pdf documentation
+
+//For generate PDF
 
 ext {
-    swaggerOutputDir = file("src/docs/swagger")
+	jsonInputPath = 'http//localhost:8888/swagger.json'
+    swaggerOutputDir = file("$buildDir/docs/swagger")
     asciiDocOutputDir = file('src/docs/asciidoc/generated')
 }
 
+task getSwaggerJson(dependsOn: 'classes', type: JavaExec) {
+	doFirst {
+		[jettyRun,jettyStop]*.stopPort = 8081
+		[jettyRun,jettyStop]*.stopKey = 'stopKey'
+        jettyRun.daemon = true
+        jettyRun.webAppSourceDirectory = file("src/main/resources/public")
+        jettyRun.execute()
+    }
+   	main = "project.swagger.SwaggerJson"
+   	classpath = sourceSets.main.runtimeClasspath
+   	args = [swaggerOutputDir,jsonInputPath]
+   	doLast {
+        jettyStop.execute()
+    }
+}
+
 convertSwagger2markup {
-    doFirst {
-    	// levantar el server
-    }
-    // copy swagger-json to swaggerOutputDir
-    doLast {
-    	// bajar el server
-    }
+    dependsOn getSwaggerJson
 }
 
 asciidoctor {  
@@ -104,8 +121,7 @@ asciidoctor {
 
 task generateStaticDocumentation {
 	dependsOn asciidoctor
-	print "${asciidoctor.outputDir}"
-	from ("${asciidoctor.outputDir}/pdf") {
-        into 'static/docs'
-    }
+	//from ("${asciidoctor.outputDir}/pdf") {
+    //    into 'static/docs'
+    //}
 }
