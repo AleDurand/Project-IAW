@@ -77,7 +77,8 @@ task wrapper(type: Wrapper) {
 
 ext {
 	jsonInputPath = 'http//localhost:8888/swagger.json'
-    swaggerOutputDir = file("$buildDir/docs/swagger")
+    swaggerOutputDir = file("src/docs/swagger")
+    swaggerOutputFile = 'swagger.json'
     asciiDocOutputDir = file('src/docs/asciidoc/generated')
 }
 
@@ -91,7 +92,7 @@ task getSwaggerJson(dependsOn: 'classes', type: JavaExec) {
     }
    	main = "project.swagger.SwaggerJson"
    	classpath = sourceSets.main.runtimeClasspath
-   	args = [swaggerOutputDir,jsonInputPath]
+   	args = [jsonInputPath,swaggerOutputDir,swaggerOutputFile]
    	doLast {
         jettyStop.execute()
     }
@@ -99,6 +100,7 @@ task getSwaggerJson(dependsOn: 'classes', type: JavaExec) {
 
 convertSwagger2markup {
     dependsOn getSwaggerJson
+    inputDir file('src/docs/swagger')
 }
 
 asciidoctor {  
@@ -121,7 +123,7 @@ asciidoctor {
 
 task generateStaticDocumentation {
 	dependsOn asciidoctor
-	//from ("${asciidoctor.outputDir}/pdf") {
-    //    into 'static/docs'
-    //}
+	from ("${asciidoctor.outputDir}/pdf") {
+        into 'static/docs'
+    }
 }
