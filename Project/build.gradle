@@ -8,7 +8,7 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.5.RELEASE")
-        classpath("mysql:mysql-connector-java:5.1.36") 
+        classpath("mysql:mysql-connector-java:5.1.36")
         classpath('org.asciidoctor:asciidoctor-gradle-plugin:1.5.2')
         classpath('org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.6')
     }
@@ -17,17 +17,18 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'eclipse-wtp'
 apply plugin: 'idea'
-apply plugin: 'spring-boot' 
+apply plugin: 'spring-boot'
 apply plugin: 'war'
 
 apply plugin: 'org.asciidoctor.convert'
 
+mainClassName = "project.ProjectApplication"
 
 war {
     baseName = 'project'
     version = '0.0.1-SNAPSHOT'
     dependsOn asciidoctor
-    from ("${asciidoctor.outputDir}/pdf") {
+    from("${asciidoctor.outputDir}/pdf") {
         into 'static/docs'
     }
 }
@@ -41,7 +42,7 @@ repositories {
 }
 
 configurations {
-    
+
 }
 
 dependencies {
@@ -57,8 +58,8 @@ dependencies {
 
 eclipse {
     classpath {
-         containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
-         containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
+        containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
+        containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
     }
 }
 
@@ -75,7 +76,7 @@ task wrapper(type: Wrapper) {
 
 //For generate pdf documentation
 
-ext {  
+ext {
     generatedDocumentation = file('src/docs/asciidoc/generated')
 }
 
@@ -83,20 +84,20 @@ test {
     outputs.dir generatedDocumentation
 }
 
-asciidoctor {  
+asciidoctor {
     dependsOn test
     sources {
         include 'index.adoc'
     }
     backends = ['pdf']
     attributes = [
-            doctype: 'book',
-            toc: 'left',
-            toclevels: '2',
-            numbered: '',
-            sectlinks: '',
+            doctype    : 'book',
+            toc        : 'left',
+            toclevels  : '2',
+            numbered   : '',
+            sectlinks  : '',
             sectanchors: '',
-            hardbreaks: '',
-            generated: generatedDocumentation
+            hardbreaks : '',
+            generated  : generatedDocumentation
     ]
 }
