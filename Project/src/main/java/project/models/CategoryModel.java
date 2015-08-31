@@ -1,41 +1,30 @@
 package project.models;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
-@Table(name = "real_state_agent")
-public class RealStateAgentModel implements Serializable {
-    private static final long serialVersionUID = -429153276492199091L;
+@Table(name = "category")
+public class CategoryModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
     private Integer id;
 
-    @Column(name = "name", unique = true, nullable = false)
+    @Column(name = "name")
     private String name;
 
     @Column(name = "description")
     private String description;
 
-    @Column(name = "web")
-    private String web;
-
-    @Column(name = "email")
-    private String email;
-
-    public RealStateAgentModel() {
+    public CategoryModel() {
 
     }
 
-    public RealStateAgentModel(Integer id, String name, String description, String web, String email) {
-        super();
+    public CategoryModel(Integer id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.web = web;
-        this.email = email;
     }
 
     public Integer getId() {
@@ -61,21 +50,4 @@ public class RealStateAgentModel implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public String getWeb() {
-        return web;
-    }
-
-    public void setWeb(String web) {
-        this.web = web;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
 }
