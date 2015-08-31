@@ -1,17 +1,18 @@
 package project.services;
 
-import java.util.List;
-
 import project.models.RealStateAgentModel;
 
+import java.util.List;
+
 public interface RealStateAgentService {
-	public RealStateAgentModel create(RealStateAgentModel realStateAgent);
 
-	public RealStateAgentModel read(Integer id);
+    public RealStateAgentModel create(RealStateAgentModel realStateAgent);
 
-	public RealStateAgentModel update(Integer id, RealStateAgentModel realStateAgent);
+    public RealStateAgentModel read(Integer id);
 
-	public void delete(Integer id);
-	
-	public List<RealStateAgentModel> getAll();
+    public RealStateAgentModel update(Integer id, RealStateAgentModel realStateAgent);
+
+    public void delete(Integer id);
+
+    public List<RealStateAgentModel> getAll();
 }

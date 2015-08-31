@@ -32,7 +32,6 @@ public class UserServiceImplementation implements UserService {
 		UserModel toReturn = userRepository.findById(id);
 		toReturn.setPassword(user.getPassword());
 		toReturn.setUsername(user.getUsername());
-
 		userRepository.save(toReturn);
 		return toReturn;
 	}
