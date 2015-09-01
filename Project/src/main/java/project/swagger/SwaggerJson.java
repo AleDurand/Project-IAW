@@ -26,7 +26,7 @@ public class SwaggerJson {
 			String inputLine;
 		
 			//Save to this file name
-			File file = new File(args[0]+"/"+args[1]);
+			File file = new File(args[1]+"\\"+args[2]);
 			if (!file.exists()) {
 				file.createNewFile();
 			}

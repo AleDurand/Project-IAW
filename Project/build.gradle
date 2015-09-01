@@ -76,7 +76,7 @@ task wrapper(type: Wrapper) {
 //For generate PDF
 
 ext {
-	jsonInputPath = "http//localhost:8080/swagger.json"
+	jsonInputPath = "http://localhost:8080/swagger.json"
     swaggerOutputDir = file("src/docs/swagger")
     swaggerOutputFile = "swagger.json"
     asciiDocOutputDir = file("src/docs/asciidoc/generated")
@@ -84,15 +84,15 @@ ext {
 
 task getSwaggerJson(dependsOn: 'classes', type: JavaExec) {
 	doFirst {
-		[jettyRun,jettyStop]*.stopPort = 8080
-		[jettyRun,jettyStop]*.stopKey = 'stopKey'
+		[jettyRun,jettyRunWar,jettyStop]*.stopPort = 8080
+		[jettyRun,jettyRunWar,jettyStop]*.stopKey = 'stopKey'
+        [jettyRun, jettyRunWar]*.contextPath = '/'
         jettyRun.daemon = true
-        jettyRun.webAppSourceDirectory = file("src/main/resources/public")
         jettyRun.execute()
     }
-   	main = "project.swagger.SwaggerJson"
-   	classpath = sourceSets.main.runtimeClasspath
-   	args = [jsonInputPath,swaggerOutputDir,swaggerOutputFile]
+    main = "project.swagger.SwaggerJson"
+    classpath = sourceSets.main.runtimeClasspath
+    args = [jsonInputPath,swaggerOutputDir,swaggerOutputFile]
    	doLast {
         jettyStop.execute()
     }
