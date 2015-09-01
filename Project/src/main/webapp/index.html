@@ -35,13 +35,13 @@
       } else {
         url = "http://petstore.swagger.io/v2/swagger.json";
       }
-
+      url = window.location.origin.toString() + "/swagger.json";
       // Pre load translate...
       if(window.SwaggerTranslator) {
         window.SwaggerTranslator.translate();
       }
       window.swaggerUi = new SwaggerUi({
-        url: "http://localhost:8080/swagger.json",
+        url: url,
         dom_id: "swagger-ui-container",
         supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
         onComplete: function(swaggerApi, swaggerUi){
