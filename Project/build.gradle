@@ -25,9 +25,14 @@ apply plugin: 'war'
 //For generate PDF
 apply plugin: 'org.asciidoctor.convert'
 apply plugin: 'io.github.robwin.swagger2markup'
-apply plugin: 'jetty'
+//apply plugin: 'jetty'
+apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
 
 mainClassName = "project.ProjectApplication"
+
+springBoot {
+    mainClass = "project.ProjectApplication"
+}
 
 war {
     baseName = 'project'
@@ -43,6 +48,7 @@ repositories {
 }
 
 configurations {
+    compile.exclude module: "spring-boot-starter-tomcat"
     providedRuntime
 }
 
@@ -76,10 +82,6 @@ task wrapper(type: Wrapper) {
 
 //For generate PDF
 
-jettyRunWar {
-    contextPath = "/"
-}
-
 ext {
 	jsonInputPath = "http://localhost:8080/swagger.json"
     swaggerOutputDir = file("src/docs/swagger")
@@ -87,10 +89,24 @@ ext {
     asciiDocOutputDir = file("src/docs/asciidoc/generated")
 }
 
+gretty {
+    contextPath = '/'
+    integrationTestTask = 'getSwaggerJson'
+}
+
 task getSwaggerJson(dependsOn: 'classes', type: JavaExec) {
-	doFirst {
-		[jettyRun,jettyRunWar,jettyStop]*.stopPort = 8080
-		[jettyRun,jettyRunWar,jettyStop]*.stopKey = 'stopKey'
+    main = "project.swagger.SwaggerJson"
+    classpath = sourceSets.main.runtimeClasspath
+    args = [jsonInputPath,swaggerOutputDir,swaggerOutputFile]
+}
+
+/*task getSwaggerJson(dependsOn: 'classes', type: JavaExec) {
+Jetty 9.2.10.v20150310
+ */
+	/*doFirst {
+        //appStart.execute()
+		*//**//*[jettyRun,jettyRunWar,jettyStop]*.stopPort = 8080
+		[jettyRun,jettyRunWar,jettyStop]*.stopKey = 'stopKey'*//**//*
         [jettyRun, jettyRunWar]*.contextPath = '/'
         jettyRun.daemon = true
         jettyRun.execute()
@@ -99,9 +115,10 @@ task getSwaggerJson(dependsOn: 'classes', type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     args = [jsonInputPath,swaggerOutputDir,swaggerOutputFile]
    	doLast {
+        *//**//*appStop.execute()*//**//*
         jettyStop.execute()
     }
-}
+}*/
 
 convertSwagger2markup {
     dependsOn getSwaggerJson
