@@ -25,7 +25,6 @@ apply plugin: 'war'
 //For generate PDF
 apply plugin: 'org.asciidoctor.convert'
 apply plugin: 'io.github.robwin.swagger2markup'
-//apply plugin: 'jetty'
 apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
 
 mainClassName = "project.ProjectApplication"
@@ -99,26 +98,6 @@ task getSwaggerJson(dependsOn: 'classes', type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     args = [jsonInputPath,swaggerOutputDir,swaggerOutputFile]
 }
-
-/*task getSwaggerJson(dependsOn: 'classes', type: JavaExec) {
-Jetty 9.2.10.v20150310
- */
-	/*doFirst {
-        //appStart.execute()
-		*//**//*[jettyRun,jettyRunWar,jettyStop]*.stopPort = 8080
-		[jettyRun,jettyRunWar,jettyStop]*.stopKey = 'stopKey'*//**//*
-        [jettyRun, jettyRunWar]*.contextPath = '/'
-        jettyRun.daemon = true
-        jettyRun.execute()
-    }
-    main = "project.swagger.SwaggerJson"
-    classpath = sourceSets.main.runtimeClasspath
-    args = [jsonInputPath,swaggerOutputDir,swaggerOutputFile]
-   	doLast {
-        *//**//*appStop.execute()*//**//*
-        jettyStop.execute()
-    }
-}*/
 
 convertSwagger2markup {
     dependsOn getSwaggerJson
