@@ -1,16 +1,11 @@
 package project.repositories;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import project.model.Office;
+import project.models.OfficeModel;
 
 @Repository
-public interface OfficeRepository extends JpaRepository<Office, Long> {
-
-	public Office findById( Long id );
-
-	public List<Office> findByCommerceId( Long id );
+public interface OfficeRepository extends JpaRepository<OfficeModel, Integer> {
+	public OfficeModel findById(Integer id);
 }

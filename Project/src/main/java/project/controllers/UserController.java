@@ -11,42 +11,43 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import project.models.OfficeModel;
-import project.services.OfficeService;
+import project.models.UserModel;
+import project.services.UserService;
 
 @RestController
-@RequestMapping(value = "/offices")
-public class OfficeController {
+@RequestMapping(value = "/users")
+public class UserController {
+
 	@Autowired
-	private OfficeService officeService;
+	private UserService userService;
 
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-	public ResponseEntity<OfficeModel> create(@RequestBody OfficeModel office) {
-		OfficeModel toReturn = officeService.create(office);
-		return new ResponseEntity<OfficeModel>(toReturn, HttpStatus.OK);
+	public ResponseEntity<UserModel> create(@RequestBody UserModel user) {
+		UserModel toReturn = userService.create(user);
+		return new ResponseEntity<UserModel>(toReturn, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<OfficeModel> read(@PathVariable Integer id) {
-		OfficeModel toReturn = officeService.read(id);
-		return new ResponseEntity<OfficeModel>(toReturn, HttpStatus.OK);
+	public ResponseEntity<UserModel> read(@PathVariable Integer id) {
+		UserModel toReturn = userService.read(id);
+		return new ResponseEntity<UserModel>(toReturn, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
-	public ResponseEntity<OfficeModel> update(@PathVariable Integer id, @RequestBody OfficeModel office) {
-		OfficeModel toReturn = officeService.update(id, office);
-		return new ResponseEntity<OfficeModel>(toReturn, HttpStatus.OK);
+	public ResponseEntity<UserModel> update(@PathVariable Integer id, @RequestBody UserModel user) {
+		UserModel toReturn = userService.update(id, user);
+		return new ResponseEntity<UserModel>(toReturn, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<String> delete(@PathVariable Integer id) {
-		officeService.delete(id);
-		return new ResponseEntity<String>("OfficeModel deleted.", HttpStatus.NO_CONTENT);
+		userService.delete(id);
+		return new ResponseEntity<String>("UserModel deleted.", HttpStatus.NO_CONTENT);
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<List<OfficeModel>> getAll() {
-		List<OfficeModel> offices = officeService.getAll();
-		return new ResponseEntity<List<OfficeModel>>(offices, HttpStatus.OK);
+	public ResponseEntity<List<UserModel>> getAll() {
+		List<UserModel> users = userService.getAll();
+		return new ResponseEntity<List<UserModel>>(users, HttpStatus.OK);
 	}
 }

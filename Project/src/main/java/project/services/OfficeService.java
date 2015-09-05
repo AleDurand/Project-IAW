@@ -2,20 +2,17 @@ package project.services;
 
 import java.util.List;
 
-import project.exceptions.EntityAlreadyExistsException;
-import project.exceptions.EntityNotFoundException;
-import project.model.Office;
+import project.models.OfficeModel;
 
 public interface OfficeService {
-	public Office create( Office office );
 
-	public Office read( Long id ) throws EntityNotFoundException, EntityNotFoundException;
+	public OfficeModel create(OfficeModel office);
 
-	public Office update( Long id , Office office ) throws EntityNotFoundException , EntityAlreadyExistsException;
+	public OfficeModel read(Integer id);
 
-	public void delete( Long id ) throws EntityNotFoundException;
+	public OfficeModel update(Integer id, OfficeModel office);
 
-	public List<Office> getAll();
-	
-	public List<Office> getAllByCommerceId(Long id) throws EntityNotFoundException;
+	public void delete(Integer id);
+
+	public List<OfficeModel> getAll();
 }

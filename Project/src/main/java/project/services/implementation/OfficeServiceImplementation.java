@@ -5,51 +5,44 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import project.exceptions.EntityAlreadyExistsException;
-import project.exceptions.EntityNotFoundException;
-import project.model.Office;
-import project.repositories.CommerceRepository;
+import project.models.OfficeModel;
 import project.repositories.OfficeRepository;
 import project.services.OfficeService;
 
 @Service
-public class OfficeServiceImplementation implements OfficeService {
-
+public class OfficeServiceImplementation implements OfficeService{
 	@Autowired
 	private OfficeRepository officeRepository;
 
-	@Autowired
-	private CommerceRepository commerceRepository;
-
 	@Override
-	public Office create( Office office ){
-		return officeRepository.save(office);
+	public OfficeModel create(OfficeModel office) {
+		OfficeModel toReturn = officeRepository.save(office);
+		return toReturn;
 	}
 
 	@Override
-	public Office read( Long id ) throws EntityNotFoundException {
-		return null;
+	public OfficeModel read(Integer id) {
+		OfficeModel toReturn = officeRepository.findById(id);
+		return toReturn;
 	}
 
 	@Override
-	public Office update( Long id , Office office ) throws EntityNotFoundException , EntityAlreadyExistsException {
-		return null;
+	public OfficeModel update(Integer id, OfficeModel office) {
+		OfficeModel toReturn = officeRepository.findById(id);
+		toReturn.setName(office.getName());
+		toReturn.setPhone(office.getPhone());
+
+		officeRepository.save(toReturn);
+		return toReturn;
 	}
 
 	@Override
-	public void delete( Long id ) throws EntityNotFoundException {
-
+	public void delete(Integer id) {
+		officeRepository.delete(id);
 	}
 
 	@Override
-	public List<Office> getAll() {
+	public List<OfficeModel> getAll() {
 		return officeRepository.findAll();
 	}
-
-	@Override
-	public List<Office> getAllByCommerceId( Long id ) throws EntityNotFoundException {
-		if (commerceRepository.findById(id) == null) throw new EntityNotFoundException();
-		return officeRepository.findByCommerceId(id);
-	}
-
 }
