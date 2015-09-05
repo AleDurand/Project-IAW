@@ -2,6 +2,7 @@ Project/.gradle
 Project/build
 Project/bin
 Project/src/docs/asciidoc/generated
+Project/src/docs/swagger
 
 # Ignore Eclipse files
 Project/.project
