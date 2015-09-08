@@ -53,15 +53,15 @@ public class UserController {
         return new ResponseEntity<List<RealStateAgentModel>>(realStateAgents, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{userId}/real-state-agents/{realSateAgentId}", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<List<RealStateAgentModel>> addRealStateAgent(@PathVariable Integer userId, @PathVariable Integer realSateAgentId) {
-        List<RealStateAgentModel> realStateAgents = userService.addRealStateAgents(userId, realSateAgentId);
+    @RequestMapping(value = "/{userId}/real-state-agents/{realStateAgentId}", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<List<RealStateAgentModel>> addRealStateAgent(@PathVariable Integer userId, @PathVariable Integer realStateAgentId) {
+        List<RealStateAgentModel> realStateAgents = userService.addRealStateAgents(userId, realStateAgentId);
         return new ResponseEntity<List<RealStateAgentModel>>(realStateAgents, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{userId}/real-state-agents/{realSateAgentId}", method = RequestMethod.DELETE, produces = "application/json")
-    public ResponseEntity<List<RealStateAgentModel>> deleteRealStateAgent(@PathVariable Integer userId, @PathVariable Integer realSateAgentId) {
-        List<RealStateAgentModel> realStateAgents = userService.deleteRealSateAgent(userId, realSateAgentId);
+    @RequestMapping(value = "/{userId}/real-state-agents/{realStateAgentId}", method = RequestMethod.DELETE, produces = "application/json")
+    public ResponseEntity<List<RealStateAgentModel>> deleteRealStateAgent(@PathVariable Integer userId, @PathVariable Integer realStateAgentId) {
+        List<RealStateAgentModel> realStateAgents = userService.deleteRealSateAgent(userId, realStateAgentId);
         return new ResponseEntity<List<RealStateAgentModel>>(realStateAgents, HttpStatus.OK);
     }
 }
