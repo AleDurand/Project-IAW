@@ -42,7 +42,7 @@ public class PropertyModel {
             name = "property_has_category",
             joinColumns = {@JoinColumn(name = "property_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")})
-    private List<OfficeModel> categories;
+    private List<CategoryModel> categories;
 
     public PropertyModel() {
 
@@ -105,11 +105,11 @@ public class PropertyModel {
         this.operation = operation;
     }
 
-    public List<OfficeModel> getCategories() {
+    public List<CategoryModel> getCategories() {
         return categories;
     }
 
-    public void setCategories(List<OfficeModel> categories) {
+    public void setCategories(List<CategoryModel> categories) {
         this.categories = categories;
     }
 }
