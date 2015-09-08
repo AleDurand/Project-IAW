@@ -33,8 +33,8 @@ public class UserServiceImplementation implements UserService {
     @Override
     public UserModel update(Integer id, UserModel user) {
         UserModel toReturn = userRepository.findById(id);
-        toReturn.setPassword(user.getPassword());
-        toReturn.setUsername(user.getUsername());
+        if (user.getUsername() != null) toReturn.setPassword(user.getPassword());
+        if (user.getPassword() != null) toReturn.setUsername(user.getUsername());
         userRepository.save(toReturn);
         return toReturn;
     }

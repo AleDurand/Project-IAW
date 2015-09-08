@@ -26,9 +26,9 @@ public class UserModel implements Serializable {
     @JsonIgnore
     @ManyToMany
     @JoinTable(
-            name="user_has_real_state_agent",
-            joinColumns={@JoinColumn(name="user_id", referencedColumnName="id")},
-            inverseJoinColumns={@JoinColumn(name="real_state_agent_id", referencedColumnName="id")})
+            name = "user_has_real_state_agent",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "real_state_agent_id", referencedColumnName = "id")})
     private List<RealStateAgentModel> realStateAgents;
 
     public UserModel() {

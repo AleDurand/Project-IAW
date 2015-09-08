@@ -1,10 +1,7 @@
 package project.services.implementation;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import project.models.OfficeModel;
 import project.models.PropertyModel;
 import project.models.RealStateAgentModel;
@@ -12,6 +9,8 @@ import project.repositories.OfficeRepository;
 import project.repositories.PropertyRepository;
 import project.repositories.RealStateAgentRepository;
 import project.services.RealStateAgentService;
+
+import java.util.List;
 
 @Service
 public class RealStateAgentServiceImplementation implements RealStateAgentService {
@@ -21,7 +20,7 @@ public class RealStateAgentServiceImplementation implements RealStateAgentServic
     private OfficeRepository officeRepository;
     @Autowired
     private PropertyRepository propertyRepository;
-    
+
     @Override
     public RealStateAgentModel create(RealStateAgentModel realStateAgent) {
         RealStateAgentModel toReturn = realStateAgentRepository.save(realStateAgent);
@@ -37,10 +36,10 @@ public class RealStateAgentServiceImplementation implements RealStateAgentServic
     @Override
     public RealStateAgentModel update(Integer id, RealStateAgentModel realStateAgent) {
         RealStateAgentModel toReturn = realStateAgentRepository.findById(id);
-        toReturn.setName(realStateAgent.getName());
-        toReturn.setDescription(realStateAgent.getDescription());
-        toReturn.setEmail(realStateAgent.getEmail());
-        toReturn.setWeb(realStateAgent.getWeb());
+        if (realStateAgent.getName() != null) toReturn.setName(realStateAgent.getName());
+        if (realStateAgent.getDescription() != null) toReturn.setDescription(realStateAgent.getDescription());
+        if (realStateAgent.getEmail() != null) toReturn.setEmail(realStateAgent.getEmail());
+        if (realStateAgent.getWeb() != null) toReturn.setWeb(realStateAgent.getWeb());
         realStateAgentRepository.save(toReturn);
         return toReturn;
     }
@@ -55,49 +54,49 @@ public class RealStateAgentServiceImplementation implements RealStateAgentServic
         return realStateAgentRepository.findAll();
     }
 
-	@Override
-	public List<OfficeModel> addOffice(Integer realStateAgentId, Integer officeId) {
-		RealStateAgentModel realStateAgent = realStateAgentRepository.findById(realStateAgentId);
+    @Override
+    public List<OfficeModel> addOffice(Integer realStateAgentId, Integer officeId) {
+        RealStateAgentModel realStateAgent = realStateAgentRepository.findById(realStateAgentId);
         OfficeModel office = officeRepository.findById(realStateAgentId);
         realStateAgent.getOffices().add(office);
         realStateAgentRepository.save(realStateAgent);
         return realStateAgent.getOffices();
-	}
+    }
 
-	@Override
-	public List<OfficeModel> getOffices(Integer realStateAgentId) {
-		return realStateAgentRepository.findById(realStateAgentId).getOffices();
-	}
+    @Override
+    public List<OfficeModel> getOffices(Integer realStateAgentId) {
+        return realStateAgentRepository.findById(realStateAgentId).getOffices();
+    }
 
-	@Override
-	public List<OfficeModel> deleteOffice(Integer realStateAgentId, Integer officeId) {
-		RealStateAgentModel realStateAgent = realStateAgentRepository.findById(realStateAgentId);
+    @Override
+    public List<OfficeModel> deleteOffice(Integer realStateAgentId, Integer officeId) {
+        RealStateAgentModel realStateAgent = realStateAgentRepository.findById(realStateAgentId);
         OfficeModel office = officeRepository.findById(officeId);
         realStateAgent.getOffices().remove(office);
         realStateAgentRepository.save(realStateAgent);
         return realStateAgent.getOffices();
-	}
+    }
 
-	@Override
-	public List<PropertyModel> addProperty(Integer realStateAgentId, Integer propertyId) {
-		RealStateAgentModel realStateAgent = realStateAgentRepository.findById(realStateAgentId);
+    @Override
+    public List<PropertyModel> addProperty(Integer realStateAgentId, Integer propertyId) {
+        RealStateAgentModel realStateAgent = realStateAgentRepository.findById(realStateAgentId);
         PropertyModel property = propertyRepository.findById(propertyId);
         realStateAgent.getProperties().add(property);
         realStateAgentRepository.save(realStateAgent);
         return realStateAgent.getProperties();
-	}
+    }
 
-	@Override
-	public List<PropertyModel> getProperties(Integer realStateAgentId) {
-		return realStateAgentRepository.findById(realStateAgentId).getProperties();
-	}
+    @Override
+    public List<PropertyModel> getProperties(Integer realStateAgentId) {
+        return realStateAgentRepository.findById(realStateAgentId).getProperties();
+    }
 
-	@Override
-	public List<PropertyModel> deleteProperty(Integer realStateAgentId,	Integer propertyId) {
-		RealStateAgentModel realStateAgent = realStateAgentRepository.findById(realStateAgentId);
+    @Override
+    public List<PropertyModel> deleteProperty(Integer realStateAgentId, Integer propertyId) {
+        RealStateAgentModel realStateAgent = realStateAgentRepository.findById(realStateAgentId);
         PropertyModel property = propertyRepository.findById(propertyId);
-        realStateAgent.getOffices().remove(property);
+        realStateAgent.getProperties().remove(property);
         realStateAgentRepository.save(realStateAgent);
         return realStateAgent.getProperties();
-	}
+    }
 }

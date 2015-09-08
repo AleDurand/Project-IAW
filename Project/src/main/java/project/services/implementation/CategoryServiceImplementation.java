@@ -28,8 +28,8 @@ public class CategoryServiceImplementation implements CategoryService {
     @Override
     public CategoryModel update(Integer id, CategoryModel category) {
         CategoryModel toReturn = categoryRepository.findById(id);
-        toReturn.setName(category.getName());
-        toReturn.setDescription(category.getDescription());
+        if (category.getName() != null) toReturn.setName(category.getName());
+        if (category.getDescription() != null) toReturn.setDescription(category.getDescription());
         categoryRepository.save(toReturn);
         return toReturn;
     }

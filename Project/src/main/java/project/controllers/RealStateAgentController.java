@@ -1,20 +1,15 @@
 package project.controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import project.models.OfficeModel;
 import project.models.PropertyModel;
 import project.models.RealStateAgentModel;
 import project.services.RealStateAgentService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/real-state-agents")
@@ -52,7 +47,7 @@ public class RealStateAgentController {
         List<RealStateAgentModel> realStateAgents = realStateAgentService.getAll();
         return new ResponseEntity<List<RealStateAgentModel>>(realStateAgents, HttpStatus.OK);
     }
-    
+
     @RequestMapping(value = "/{id}/offices", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<List<OfficeModel>> getOffices(@PathVariable Integer id) {
         List<OfficeModel> offices = realStateAgentService.getOffices(id);
@@ -70,7 +65,7 @@ public class RealStateAgentController {
         List<OfficeModel> offices = realStateAgentService.deleteOffice(realStateAgentId, officeId);
         return new ResponseEntity<List<OfficeModel>>(offices, HttpStatus.OK);
     }
-    
+
     @RequestMapping(value = "/{id}/properties", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<List<PropertyModel>> getProperties(@PathVariable Integer id) {
         List<PropertyModel> properties = realStateAgentService.getProperties(id);

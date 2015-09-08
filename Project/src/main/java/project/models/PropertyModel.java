@@ -31,8 +31,8 @@ public class PropertyModel {
 
     @ElementCollection
     @CollectionTable(
-            name="operation",
-            joinColumns=@JoinColumn(name="property_id")
+            name = "operation",
+            joinColumns = @JoinColumn(name = "property_id")
     )
     private List<OperationModel> operation;
 

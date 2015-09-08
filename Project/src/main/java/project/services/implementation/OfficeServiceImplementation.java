@@ -28,8 +28,9 @@ public class OfficeServiceImplementation implements OfficeService {
     @Override
     public OfficeModel update(Integer id, OfficeModel office) {
         OfficeModel toReturn = officeRepository.findById(id);
-        toReturn.setName(office.getName());
-        toReturn.setPhone(office.getPhone());
+        if (office.getName() != null) toReturn.setName(office.getName());
+        if (office.getPhone() != null) toReturn.setPhone(office.getPhone());
+        if (office.getAddress() != null) toReturn.setAddress(office.getAddress());
         officeRepository.save(toReturn);
         return toReturn;
     }
