@@ -1,13 +1,19 @@
 package project.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import project.models.CategoryModel;
 import project.models.PropertyModel;
 import project.services.PropertyService;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/properties")
@@ -44,5 +50,23 @@ public class PropertyController {
     public ResponseEntity<List<PropertyModel>> getAll() {
         List<PropertyModel> properties = propertyService.getAll();
         return new ResponseEntity<List<PropertyModel>>(properties, HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = "/{id}/categories", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<List<CategoryModel>> getCategories(@PathVariable Integer id) {
+        List<CategoryModel> categories = propertyService.getCategories(id);
+        return new ResponseEntity<List<CategoryModel>>(categories, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{propertyId}/categories/{categoryId}", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<List<CategoryModel>> addCategory(@PathVariable Integer propertyId, @PathVariable Integer categoryId) {
+        List<CategoryModel> categories = propertyService.addCategory(propertyId, categoryId);
+        return new ResponseEntity<List<CategoryModel>>(categories, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{userId}/real-state-agents/{realSateAgentId}", method = RequestMethod.DELETE, produces = "application/json")
+    public ResponseEntity<List<CategoryModel>> deleteCategory(@PathVariable Integer propertyId, @PathVariable Integer categoryId) {
+        List<CategoryModel> categories = propertyService.deleteCategory(propertyId, categoryId);
+        return new ResponseEntity<List<CategoryModel>>(categories, HttpStatus.OK);
     }
 }

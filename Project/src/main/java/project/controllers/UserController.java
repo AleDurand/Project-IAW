@@ -48,7 +48,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/{id}/real-state-agents", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<List<RealStateAgentModel>> getAllRealStateAgents(@PathVariable Integer id) {
+    public ResponseEntity<List<RealStateAgentModel>> getRealStateAgents(@PathVariable Integer id) {
         List<RealStateAgentModel> realStateAgents = userService.getRealStateAgents(id);
         return new ResponseEntity<List<RealStateAgentModel>>(realStateAgents, HttpStatus.OK);
     }
