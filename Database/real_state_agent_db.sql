@@ -188,14 +188,14 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `real_state_agent_db`.`office_has_real_state_agent`
+-- Table `real_state_agent_db`.`real_state_agent_has_office`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `real_state_agent_db`.`office_has_real_state_agent` ;
+DROP TABLE IF EXISTS `real_state_agent_db`.`real_state_agent_has_office` ;
 
-CREATE TABLE IF NOT EXISTS `real_state_agent_db`.`office_has_real_state_agent` (
-  `office_id` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `real_state_agent_db`.`real_state_agent_has_office` (
   `real_state_agent_id` INT NOT NULL,
-  PRIMARY KEY (`office_id`, `real_state_agent_id`),
+  `office_id` INT NOT NULL,
+  PRIMARY KEY (`real_state_agent_id`, `office_id`),
   INDEX `fk_office_has_real_state_agent_real_state_agent1_idx` (`real_state_agent_id` ASC),
   INDEX `fk_office_has_real_state_agent_office1_idx` (`office_id` ASC),
   CONSTRAINT `fk_office_has_real_state_agent_office1`
