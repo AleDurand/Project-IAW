@@ -1,6 +1,8 @@
 package project.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -33,6 +35,14 @@ public class PropertyModel {
             joinColumns=@JoinColumn(name="property_id")
     )
     private List<OperationModel> operation;
+
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name = "property_has_category",
+            joinColumns = {@JoinColumn(name = "property_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")})
+    private List<OfficeModel> categories;
 
     public PropertyModel() {
 
@@ -93,5 +103,13 @@ public class PropertyModel {
 
     public void setOperation(List<OperationModel> operation) {
         this.operation = operation;
+    }
+
+    public List<OfficeModel> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<OfficeModel> categories) {
+        this.categories = categories;
     }
 }

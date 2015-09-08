@@ -1,7 +1,10 @@
 package project.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "real_state_agent")
@@ -24,6 +27,22 @@ public class RealStateAgentModel implements Serializable {
 
     @Column(name = "email")
     private String email;
+
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name = "real_state_agent_has_office",
+            joinColumns = {@JoinColumn(name = "real_state_agent_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "office_id", referencedColumnName = "id")})
+    private List<OfficeModel> offices;
+
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name = "real_state_agent_has_property",
+            joinColumns = {@JoinColumn(name = "real_state_agent_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "property_id", referencedColumnName = "id")})
+    private List<PropertyModel> properties;
 
     public RealStateAgentModel() {
 
@@ -78,4 +97,19 @@ public class RealStateAgentModel implements Serializable {
         this.email = email;
     }
 
+    public List<OfficeModel> getOffices() {
+        return offices;
+    }
+
+    public void setOffices(List<OfficeModel> offices) {
+        this.offices = offices;
+    }
+
+    public List<PropertyModel> getProperties() {
+        return properties;
+    }
+
+    public void setProperties(List<PropertyModel> properties) {
+        this.properties = properties;
+    }
 }
