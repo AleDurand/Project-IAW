@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -21,6 +22,14 @@ public class UserModel implements Serializable {
 
     @Column(name = "password", nullable = false)
     private String password;
+
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name="user_has_real_state_agent",
+            joinColumns={@JoinColumn(name="user_id", referencedColumnName="id")},
+            inverseJoinColumns={@JoinColumn(name="real_state_agent_id", referencedColumnName="id")})
+    private List<RealStateAgentModel> realStateAgents;
 
     public UserModel() {
 
@@ -59,4 +68,11 @@ public class UserModel implements Serializable {
         this.password = password;
     }
 
+    public List<RealStateAgentModel> getRealStateAgents() {
+        return realStateAgents;
+    }
+
+    public void setRealStateAgents(List<RealStateAgentModel> realStateAgents) {
+        this.realStateAgents = realStateAgents;
+    }
 }

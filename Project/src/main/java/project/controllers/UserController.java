@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import project.models.RealStateAgentModel;
 import project.models.UserModel;
 import project.services.UserService;
 
@@ -44,5 +45,23 @@ public class UserController {
     public ResponseEntity<List<UserModel>> getAll() {
         List<UserModel> users = userService.getAll();
         return new ResponseEntity<List<UserModel>>(users, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{id}/real-state-agents", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<List<RealStateAgentModel>> getAllRealStateAgents(@PathVariable Integer id) {
+        List<RealStateAgentModel> realStateAgents = userService.getRealStateAgents(id);
+        return new ResponseEntity<List<RealStateAgentModel>>(realStateAgents, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{userId}/real-state-agents/{realSateAgentId}", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<List<RealStateAgentModel>> addRealStateAgent(@PathVariable Integer userId, @PathVariable Integer realSateAgentId) {
+        List<RealStateAgentModel> realStateAgents = userService.addRealStateAgents(userId, realSateAgentId);
+        return new ResponseEntity<List<RealStateAgentModel>>(realStateAgents, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{userId}/real-state-agents/{realSateAgentId}", method = RequestMethod.DELETE, produces = "application/json")
+    public ResponseEntity<List<RealStateAgentModel>> deleteRealStateAgent(@PathVariable Integer userId, @PathVariable Integer realSateAgentId) {
+        List<RealStateAgentModel> realStateAgents = userService.deleteRealSateAgent(userId,realSateAgentId);
+        return new ResponseEntity<List<RealStateAgentModel>>(realStateAgents, HttpStatus.OK);
     }
 }
