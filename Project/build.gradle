@@ -25,7 +25,7 @@ apply plugin: 'war'
 //For generate PDF
 apply plugin: 'org.asciidoctor.convert'
 apply plugin: 'io.github.robwin.swagger2markup'
-apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
+/*apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'*/
 
 mainClassName = "project.ProjectApplication"
 
@@ -90,10 +90,10 @@ ext {
     asciiDocOutputDir = file("src/docs/asciidoc/generated")
 }
 
-gretty {
+/*gretty {
     contextPath = '/'
     integrationTestTask = 'getSwaggerJson'
-}
+}*/
 
 task getSwaggerJson(dependsOn: 'classes', type: JavaExec) {
     main = "project.swagger.SwaggerJson"
