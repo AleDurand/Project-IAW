@@ -10,7 +10,8 @@ import project.exceptions.*;
 public class GlobalExceptionController {
 
     @ExceptionHandler({
-            EntityNotFoundException.class
+            EntityNotFoundException.class,
+            AssociationNotFoundException.class
     })
     public ResponseEntity<?> handleNotFounds(CustomException e) {
         return new ResponseEntity<>(e.getErrorMessage(), HttpStatus.NOT_FOUND);
@@ -19,7 +20,8 @@ public class GlobalExceptionController {
     @ExceptionHandler({
             InvalidEntityConstraintsException.class,
             InvalidIdException.class,
-            EntityAlreadyExistsException.class
+            EntityAlreadyExistsException.class,
+            AssociationAlreadyExistsException.class
     })
     public ResponseEntity<?> handleBadRequests(CustomException e) {
         return new ResponseEntity<>(e.getErrorMessage(), HttpStatus.BAD_REQUEST);

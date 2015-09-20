@@ -133,7 +133,7 @@ public class RealStateAgentController {
     )
     @ApiResponses({
             @ApiResponse(code = 200, message = "Offices associated with the real state agent"),
-            @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
+            @ApiResponse(code = 400, message = "Invalid id or association already exists", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "Real state agent or office has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{realStateAgentId}/offices/{officeId}", method = RequestMethod.POST, produces = "application/json")
@@ -151,7 +151,7 @@ public class RealStateAgentController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "Offices associated with the real state agent"),
             @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
-            @ApiResponse(code = 404, message = "Real state agent or office has not been found", response = DefaultMessage.class)
+            @ApiResponse(code = 404, message = "Real state agent or office or association has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{realStateAgentId}/offices/{officeId}", method = RequestMethod.DELETE, produces = "application/json")
     public ResponseEntity<List<OfficeModel>> deleteOffice(@PathVariable Integer realStateAgentId, @PathVariable Integer officeId) {
@@ -184,7 +184,7 @@ public class RealStateAgentController {
     )
     @ApiResponses({
             @ApiResponse(code = 200, message = "Properties associated with the real state agent"),
-            @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
+            @ApiResponse(code = 400, message = "Invalid id or association already exists", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "Real state agent or property has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{realStateAgentId}/properties/{propertyId}", method = RequestMethod.POST, produces = "application/json")
@@ -202,7 +202,7 @@ public class RealStateAgentController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "Properties associated with the real state agent"),
             @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
-            @ApiResponse(code = 404, message = "Real state agent or property has not been found", response = DefaultMessage.class)
+            @ApiResponse(code = 404, message = "Real state agent or property or association has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{realStateAgentId}/properties/{propertyId}", method = RequestMethod.DELETE, produces = "application/json")
     public ResponseEntity<List<PropertyModel>> deleteProperty(@PathVariable Integer realStateAgentId, @PathVariable Integer propertyId) {

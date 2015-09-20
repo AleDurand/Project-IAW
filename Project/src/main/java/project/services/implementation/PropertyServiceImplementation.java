@@ -2,6 +2,8 @@ package project.services.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import project.exceptions.AssociationAlreadyExistsException;
+import project.exceptions.AssociationNotFoundException;
 import project.exceptions.EntityNotFoundException;
 import project.models.CategoryModel;
 import project.models.PropertyModel;
@@ -56,7 +58,6 @@ public class PropertyServiceImplementation implements PropertyService {
             if (property.getAddress().getGeoLocation() != null)
                 toReturn.getAddress().setGeoLocation(property.getAddress().getGeoLocation());
         }
-
         return propertyRepository.save(toReturn);
     }
 
@@ -81,6 +82,10 @@ public class PropertyServiceImplementation implements PropertyService {
         CategoryModel category = categoryRepository.findById(categoryId);
         if (category == null)
             throw new EntityNotFoundException("Category", categoryId);
+        for (CategoryModel c : property.getCategories()) {
+            if (c.getId().equals(category.getId()))
+                throw new AssociationAlreadyExistsException("Property", "Category");
+        }
         property.getCategories().add(category);
         propertyRepository.save(property);
         return property.getCategories();
@@ -102,8 +107,14 @@ public class PropertyServiceImplementation implements PropertyService {
         CategoryModel category = categoryRepository.findById(categoryId);
         if (category == null)
             throw new EntityNotFoundException("Category", categoryId);
-        property.getCategories().remove(category);
-        propertyRepository.save(property);
-        return property.getCategories();
+        for (CategoryModel c : property.getCategories()) {
+            if (c.getId().equals(category.getId())) {
+                property.getCategories().remove(category);
+                propertyRepository.save(property);
+                return property.getCategories();
+            }
+        }
+        throw new AssociationNotFoundException("Property", "Category");
+
     }
 }

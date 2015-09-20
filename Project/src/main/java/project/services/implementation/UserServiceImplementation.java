@@ -2,6 +2,8 @@ package project.services.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import project.exceptions.AssociationAlreadyExistsException;
+import project.exceptions.AssociationNotFoundException;
 import project.exceptions.EntityAlreadyExistsException;
 import project.exceptions.EntityNotFoundException;
 import project.models.RealStateAgentModel;
@@ -68,6 +70,10 @@ public class UserServiceImplementation implements UserService {
         RealStateAgentModel realSateAgent = realStateAgentRepository.findById(realStateAgentId);
         if (realSateAgent == null)
             throw new EntityNotFoundException("RealStateAgent", realStateAgentId);
+        for (RealStateAgentModel r : user.getRealStateAgents()) {
+            if (r.getId().equals(realSateAgent.getId()))
+                throw new AssociationAlreadyExistsException("User", "RealStateAgent");
+        }
         user.getRealStateAgents().add(realSateAgent);
         userRepository.save(user);
         return user.getRealStateAgents();
@@ -89,9 +95,14 @@ public class UserServiceImplementation implements UserService {
         RealStateAgentModel realSateAgent = realStateAgentRepository.findById(realStateAgentId);
         if (realSateAgent == null)
             throw new EntityNotFoundException("RealStateAgent", realStateAgentId);
-        user.getRealStateAgents().remove(realSateAgent);
-        userRepository.save(user);
-        return user.getRealStateAgents();
+        for (RealStateAgentModel r : user.getRealStateAgents()) {
+            if (r.getId().equals(realSateAgent.getId())) {
+                user.getRealStateAgents().remove(realSateAgent);
+                userRepository.save(user);
+                return user.getRealStateAgents();
+            }
+        }
+        throw new AssociationNotFoundException("User", "RealStateAgent");
     }
 }
 

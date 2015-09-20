@@ -131,7 +131,7 @@ public class UserController {
     )
     @ApiResponses({
             @ApiResponse(code = 200, message = "Real state agents associated with the user"),
-            @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
+            @ApiResponse(code = 400, message = "Invalid id or association already exists", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "User or real state agent has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{userId}/real-state-agents/{realStateAgentId}", method = RequestMethod.POST, produces = "application/json")
@@ -149,7 +149,7 @@ public class UserController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "Real state agents associated with the user"),
             @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
-            @ApiResponse(code = 404, message = "User or real state agent has not been found", response = DefaultMessage.class)
+            @ApiResponse(code = 404, message = "User or real state agent or association has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{userId}/real-state-agents/{realStateAgentId}", method = RequestMethod.DELETE, produces = "application/json")
     public ResponseEntity<List<RealStateAgentModel>> deleteRealStateAgent(@PathVariable Integer userId, @PathVariable Integer realStateAgentId) {

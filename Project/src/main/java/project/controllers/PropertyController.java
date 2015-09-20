@@ -132,7 +132,7 @@ public class PropertyController {
     )
     @ApiResponses({
             @ApiResponse(code = 200, message = "Categories associated with the property"),
-            @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
+            @ApiResponse(code = 400, message = "Invalid id or association already exists", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "Category or property has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{propertyId}/categories/{categoryId}", method = RequestMethod.POST, produces = "application/json")
@@ -150,7 +150,7 @@ public class PropertyController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "Categories associated with the property"),
             @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
-            @ApiResponse(code = 404, message = "Category or property has not been found", response = DefaultMessage.class)
+            @ApiResponse(code = 404, message = "Category or property or association has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{propertyId}/categories/{categoryId}", method = RequestMethod.DELETE, produces = "application/json")
     public ResponseEntity<List<CategoryModel>> deleteCategory(@PathVariable Integer propertyId, @PathVariable Integer categoryId) {
