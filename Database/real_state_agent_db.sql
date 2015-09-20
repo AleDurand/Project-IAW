@@ -31,6 +31,22 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `real_state_agent_db`.`address`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `real_state_agent_db`.`address` ;
+
+CREATE TABLE IF NOT EXISTS `real_state_agent_db`.`address` (
+  `id` INT NOT NULL,
+  `street` VARCHAR(45) NOT NULL,
+  `suite` VARCHAR(45) NULL,
+  `city` VARCHAR(45) NOT NULL,
+  `zip_code` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `real_state_agent_db`.`office`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `real_state_agent_db`.`office` ;
@@ -39,25 +55,12 @@ CREATE TABLE IF NOT EXISTS `real_state_agent_db`.`office` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `phone` VARCHAR(45) NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `real_state_agent_db`.`address`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `real_state_agent_db`.`address` ;
-
-CREATE TABLE IF NOT EXISTS `real_state_agent_db`.`address` (
-  `street` VARCHAR(45) NOT NULL,
-  `suite` VARCHAR(45) NULL,
-  `city` VARCHAR(45) NOT NULL,
-  `zip_code` INT NOT NULL,
-  `office_id` INT NOT NULL,
-  PRIMARY KEY (`office_id`),
-  CONSTRAINT `fk_address_office1`
-    FOREIGN KEY (`office_id`)
-    REFERENCES `real_state_agent_db`.`office` (`id`)
+  `address_id` INT NOT NULL,
+  PRIMARY KEY (`id`, `address_id`),
+  INDEX `fk_office_address1_idx` (`address_id` ASC),
+  CONSTRAINT `fk_office_address1`
+    FOREIGN KEY (`address_id`)
+    REFERENCES `real_state_agent_db`.`address` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -71,11 +74,11 @@ DROP TABLE IF EXISTS `real_state_agent_db`.`geo_location` ;
 CREATE TABLE IF NOT EXISTS `real_state_agent_db`.`geo_location` (
   `latitude` INT NOT NULL,
   `longitude` INT NOT NULL,
-  `address_office_id` INT NOT NULL,
-  PRIMARY KEY (`address_office_id`),
+  `address_id` INT NOT NULL,
+  PRIMARY KEY (`address_id`),
   CONSTRAINT `fk_geo_location_address1`
-    FOREIGN KEY (`address_office_id`)
-    REFERENCES `real_state_agent_db`.`address` (`office_id`)
+    FOREIGN KEY (`address_id`)
+    REFERENCES `real_state_agent_db`.`address` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -106,7 +109,9 @@ CREATE TABLE IF NOT EXISTS `real_state_agent_db`.`category` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `description` TINYTEXT NULL,
-  PRIMARY KEY (`id`))
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC))
 ENGINE = InnoDB;
 
 
@@ -121,7 +126,14 @@ CREATE TABLE IF NOT EXISTS `real_state_agent_db`.`property` (
   `size` INT NULL,
   `description` TEXT NULL,
   `state` ENUM('AVAILABLE', 'UNAVAILABLE') NULL,
-  PRIMARY KEY (`id`))
+  `address_id` INT NOT NULL,
+  PRIMARY KEY (`id`, `address_id`),
+  INDEX `fk_property_address1_idx` (`address_id` ASC),
+  CONSTRAINT `fk_property_address1`
+    FOREIGN KEY (`address_id`)
+    REFERENCES `real_state_agent_db`.`address` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -236,14 +248,14 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `real_state_agent_db`.`category_has_property`
+-- Table `real_state_agent_db`.`property_has_category`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `real_state_agent_db`.`category_has_property` ;
+DROP TABLE IF EXISTS `real_state_agent_db`.`property_has_category` ;
 
-CREATE TABLE IF NOT EXISTS `real_state_agent_db`.`category_has_property` (
-  `category_id` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `real_state_agent_db`.`property_has_category` (
   `property_id` INT NOT NULL,
-  PRIMARY KEY (`category_id`, `property_id`),
+  `category_id` INT NOT NULL,
+  PRIMARY KEY (`property_id`, `category_id`),
   INDEX `fk_category_has_property_property1_idx` (`property_id` ASC),
   INDEX `fk_category_has_property_category1_idx` (`category_id` ASC),
   CONSTRAINT `fk_category_has_property_category1`
