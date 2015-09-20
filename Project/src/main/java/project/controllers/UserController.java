@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.exceptions.messages.DefaultMessage;
-import project.models.RealStateAgentModel;
+import project.models.RealEstateAgentModel;
 import project.models.UserModel;
 import project.services.UserService;
 import project.validators.UserModelValidator;
@@ -107,53 +107,53 @@ public class UserController {
     }
 
     @ApiOperation(
-            value = "Gets all real state agents belongs to a particular user",
+            value = "Gets all real estate agents belongs to a particular user",
             notes = "",
-            response = RealStateAgentModel.class,
+            response = RealEstateAgentModel.class,
             responseContainer = "List"
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Real state agents associated with the user"),
+            @ApiResponse(code = 200, message = "Real estate agents associated with the user"),
             @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "User has not been found", response = DefaultMessage.class)
     })
-    @RequestMapping(value = "/{id}/real-state-agents", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<List<RealStateAgentModel>> getRealStateAgents(@PathVariable Integer id) {
-        List<RealStateAgentModel> realStateAgents = userService.getRealStateAgents(id);
-        return new ResponseEntity<>(realStateAgents, HttpStatus.OK);
+    @RequestMapping(value = "/{id}/real-estate-agents", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<List<RealEstateAgentModel>> getRealEstateAgents(@PathVariable Integer id) {
+        List<RealEstateAgentModel> realEstateAgents = userService.getRealEstateAgents(id);
+        return new ResponseEntity<>(realEstateAgents, HttpStatus.OK);
     }
 
     @ApiOperation(
-            value = "Associate a real state agent with a particular user",
+            value = "Associate a real estate agent with a particular user",
             notes = "",
-            response = RealStateAgentModel.class,
+            response = RealEstateAgentModel.class,
             responseContainer = "List"
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Real state agents associated with the user"),
+            @ApiResponse(code = 200, message = "Real estate agents associated with the user"),
             @ApiResponse(code = 400, message = "Invalid id or association already exists", response = DefaultMessage.class),
-            @ApiResponse(code = 404, message = "User or real state agent has not been found", response = DefaultMessage.class)
+            @ApiResponse(code = 404, message = "User or real estate agent has not been found", response = DefaultMessage.class)
     })
-    @RequestMapping(value = "/{userId}/real-state-agents/{realStateAgentId}", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<List<RealStateAgentModel>> addRealStateAgent(@PathVariable Integer userId, @PathVariable Integer realStateAgentId) {
-        List<RealStateAgentModel> realStateAgents = userService.addRealStateAgents(userId, realStateAgentId);
-        return new ResponseEntity<>(realStateAgents, HttpStatus.OK);
+    @RequestMapping(value = "/{userId}/real-estate-agents/{realEstateAgentId}", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<List<RealEstateAgentModel>> addRealEstateAgent(@PathVariable Integer userId, @PathVariable Integer realEstateAgentId) {
+        List<RealEstateAgentModel> realEstateAgents = userService.addRealEstateAgents(userId, realEstateAgentId);
+        return new ResponseEntity<>(realEstateAgents, HttpStatus.OK);
     }
 
     @ApiOperation(
-            value = "Removes the association between a user and a real state agent",
+            value = "Removes the association between a user and a real estate agent",
             notes = "",
-            response = RealStateAgentModel.class,
+            response = RealEstateAgentModel.class,
             responseContainer = "List"
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Real state agents associated with the user"),
+            @ApiResponse(code = 200, message = "Real estate agents associated with the user"),
             @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
-            @ApiResponse(code = 404, message = "User or real state agent or association has not been found", response = DefaultMessage.class)
+            @ApiResponse(code = 404, message = "User or real estate agent or association has not been found", response = DefaultMessage.class)
     })
-    @RequestMapping(value = "/{userId}/real-state-agents/{realStateAgentId}", method = RequestMethod.DELETE, produces = "application/json")
-    public ResponseEntity<List<RealStateAgentModel>> deleteRealStateAgent(@PathVariable Integer userId, @PathVariable Integer realStateAgentId) {
-        List<RealStateAgentModel> realStateAgents = userService.deleteRealSateAgent(userId, realStateAgentId);
-        return new ResponseEntity<>(realStateAgents, HttpStatus.OK);
+    @RequestMapping(value = "/{userId}/real-estate-agents/{realEstateAgentId}", method = RequestMethod.DELETE, produces = "application/json")
+    public ResponseEntity<List<RealEstateAgentModel>> deleteRealEstateAgent(@PathVariable Integer userId, @PathVariable Integer realEstateAgentId) {
+        List<RealEstateAgentModel> realEstateAgents = userService.deleteRealEstateAgent(userId, realEstateAgentId);
+        return new ResponseEntity<>(realEstateAgents, HttpStatus.OK);
     }
 }

@@ -6,9 +6,9 @@ import project.exceptions.AssociationAlreadyExistsException;
 import project.exceptions.AssociationNotFoundException;
 import project.exceptions.EntityAlreadyExistsException;
 import project.exceptions.EntityNotFoundException;
-import project.models.RealStateAgentModel;
+import project.models.RealEstateAgentModel;
 import project.models.UserModel;
-import project.repositories.RealStateAgentRepository;
+import project.repositories.RealEstateAgentRepository;
 import project.repositories.UserRepository;
 import project.services.UserService;
 
@@ -21,7 +21,7 @@ public class UserServiceImplementation implements UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private RealStateAgentRepository realStateAgentRepository;
+    private RealEstateAgentRepository realEstateAgentRepository;
 
     @Override
     public UserModel create(UserModel user) {
@@ -63,46 +63,46 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public List<RealStateAgentModel> addRealStateAgents(Integer userId, Integer realStateAgentId) {
+    public List<RealEstateAgentModel> addRealEstateAgents(Integer userId, Integer realEstateAgentId) {
         UserModel user = userRepository.findById(userId);
         if (user == null)
             throw new EntityNotFoundException("User", userId);
-        RealStateAgentModel realSateAgent = realStateAgentRepository.findById(realStateAgentId);
+        RealEstateAgentModel realSateAgent = realEstateAgentRepository.findById(realEstateAgentId);
         if (realSateAgent == null)
-            throw new EntityNotFoundException("RealStateAgent", realStateAgentId);
-        for (RealStateAgentModel r : user.getRealStateAgents()) {
+            throw new EntityNotFoundException("RealEstateAgent", realEstateAgentId);
+        for (RealEstateAgentModel r : user.getRealEstateAgents()) {
             if (r.getId().equals(realSateAgent.getId()))
-                throw new AssociationAlreadyExistsException("User", "RealStateAgent");
+                throw new AssociationAlreadyExistsException("User", "RealEstateAgent");
         }
-        user.getRealStateAgents().add(realSateAgent);
+        user.getRealEstateAgents().add(realSateAgent);
         userRepository.save(user);
-        return user.getRealStateAgents();
+        return user.getRealEstateAgents();
     }
 
     @Override
-    public List<RealStateAgentModel> getRealStateAgents(Integer userId) {
+    public List<RealEstateAgentModel> getRealEstateAgents(Integer userId) {
         UserModel user = userRepository.findById(userId);
         if (user == null)
             throw new EntityNotFoundException("User", userId);
-        return user.getRealStateAgents();
+        return user.getRealEstateAgents();
     }
 
     @Override
-    public List<RealStateAgentModel> deleteRealSateAgent(Integer userId, Integer realStateAgentId) {
+    public List<RealEstateAgentModel> deleteRealEstateAgent(Integer userId, Integer realEstateAgentId) {
         UserModel user = userRepository.findById(userId);
         if (user == null)
             throw new EntityNotFoundException("User", userId);
-        RealStateAgentModel realSateAgent = realStateAgentRepository.findById(realStateAgentId);
+        RealEstateAgentModel realSateAgent = realEstateAgentRepository.findById(realEstateAgentId);
         if (realSateAgent == null)
-            throw new EntityNotFoundException("RealStateAgent", realStateAgentId);
-        for (RealStateAgentModel r : user.getRealStateAgents()) {
+            throw new EntityNotFoundException("RealEstateAgent", realEstateAgentId);
+        for (RealEstateAgentModel r : user.getRealEstateAgents()) {
             if (r.getId().equals(realSateAgent.getId())) {
-                user.getRealStateAgents().remove(realSateAgent);
+                user.getRealEstateAgents().remove(realSateAgent);
                 userRepository.save(user);
-                return user.getRealStateAgents();
+                return user.getRealEstateAgents();
             }
         }
-        throw new AssociationNotFoundException("User", "RealStateAgent");
+        throw new AssociationNotFoundException("User", "RealEstateAgent");
     }
 }
 

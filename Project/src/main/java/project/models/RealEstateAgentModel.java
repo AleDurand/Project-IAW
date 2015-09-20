@@ -9,54 +9,54 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Table(name = "real_state_agent")
-@ApiModel(value = "Real state agent", description = "Real state agent representation")
-public class RealStateAgentModel implements Serializable {
+@Table(name = "real_estate_agent")
+@ApiModel(value = "Real estate agent", description = "Real estate agent representation")
+public class RealEstateAgentModel implements Serializable {
     private static final long serialVersionUID = -429153276492199091L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
-    @ApiModelProperty(name = "Id", value = "Real state agent id", required = false)
+    @ApiModelProperty(name = "Id", value = "Real estate agent id", required = false)
     private Integer id;
 
     @Column(name = "name", unique = true, nullable = false)
-    @ApiModelProperty(name = "Name", value = "Real state agent name", required = true)
+    @ApiModelProperty(name = "Name", value = "Real estate agent name", required = true)
     private String name;
 
     @Column(name = "description")
-    @ApiModelProperty(name = "Description", value = "Real state agent description", required = false)
+    @ApiModelProperty(name = "Description", value = "Real estate agent description", required = false)
     private String description;
 
     @Column(name = "web")
-    @ApiModelProperty(name = "Web url", value = "Real state agent web", required = false)
+    @ApiModelProperty(name = "Web url", value = "Real estate agent web", required = false)
     private String web;
 
     @Column(name = "email")
-    @ApiModelProperty(name = "Email", value = "Real state agent email", required = false)
+    @ApiModelProperty(name = "Email", value = "Real estate agent email", required = false)
     private String email;
 
     @JsonIgnore
     @ManyToMany
     @JoinTable(
-            name = "real_state_agent_has_office",
-            joinColumns = {@JoinColumn(name = "real_state_agent_id", referencedColumnName = "id")},
+            name = "real_estate_agent_has_office",
+            joinColumns = {@JoinColumn(name = "real_estate_agent_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "office_id", referencedColumnName = "id")})
     private List<OfficeModel> offices;
 
     @JsonIgnore
     @ManyToMany
     @JoinTable(
-            name = "real_state_agent_has_property",
-            joinColumns = {@JoinColumn(name = "real_state_agent_id", referencedColumnName = "id")},
+            name = "real_estate_agent_has_property",
+            joinColumns = {@JoinColumn(name = "real_estate_agent_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "property_id", referencedColumnName = "id")})
     private List<PropertyModel> properties;
 
-    public RealStateAgentModel() {
+    public RealEstateAgentModel() {
 
     }
 
-    public RealStateAgentModel(Integer id, String name, String description, String web, String email) {
+    public RealEstateAgentModel(Integer id, String name, String description, String web, String email) {
         super();
         this.id = id;
         this.name = name;

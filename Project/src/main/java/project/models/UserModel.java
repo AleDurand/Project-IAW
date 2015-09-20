@@ -32,10 +32,10 @@ public class UserModel implements Serializable {
     @JsonIgnore
     @ManyToMany
     @JoinTable(
-            name = "user_has_real_state_agent",
+            name = "user_has_real_estate_agent",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "real_state_agent_id", referencedColumnName = "id")})
-    private List<RealStateAgentModel> realStateAgents;
+            inverseJoinColumns = {@JoinColumn(name = "real_estate_agent_id", referencedColumnName = "id")})
+    private List<RealEstateAgentModel> realEstateAgents;
 
     public UserModel() {
 
@@ -74,11 +74,11 @@ public class UserModel implements Serializable {
         this.password = password;
     }
 
-    public List<RealStateAgentModel> getRealStateAgents() {
-        return realStateAgents;
+    public List<RealEstateAgentModel> getRealEstateAgents() {
+        return realEstateAgents;
     }
 
-    public void setRealStateAgents(List<RealStateAgentModel> realStateAgents) {
-        this.realStateAgents = realStateAgents;
+    public void setRealEstateAgents(List<RealEstateAgentModel> realEstateAgents) {
+        this.realEstateAgents = realEstateAgents;
     }
 }

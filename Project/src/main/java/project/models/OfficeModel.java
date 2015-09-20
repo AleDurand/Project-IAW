@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "office")
-@ApiModel(value = "Office", description = "Real state agent office representation")
+@ApiModel(value = "Office", description = "Real estate agent office representation")
 public class OfficeModel implements Serializable {
     private static final long serialVersionUID = 9190080453022215012L;
 

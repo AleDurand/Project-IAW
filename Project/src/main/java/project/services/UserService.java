@@ -3,7 +3,7 @@ package project.services;
 import project.exceptions.EntityAlreadyExistsException;
 import project.exceptions.EntityNotFoundException;
 import project.exceptions.InvalidIdException;
-import project.models.RealStateAgentModel;
+import project.models.RealEstateAgentModel;
 import project.models.UserModel;
 
 import java.util.List;
@@ -20,11 +20,11 @@ public interface UserService {
 
     List<UserModel> getAll();
 
-    List<RealStateAgentModel> addRealStateAgents(Integer userId, Integer realStateAgentId) throws EntityNotFoundException;
+    List<RealEstateAgentModel> addRealEstateAgents(Integer userId, Integer realEstateAgentId) throws EntityNotFoundException;
 
-    List<RealStateAgentModel> getRealStateAgents(Integer userId) throws EntityNotFoundException;
+    List<RealEstateAgentModel> getRealEstateAgents(Integer userId) throws EntityNotFoundException;
 
-    List<RealStateAgentModel> deleteRealSateAgent(Integer userId, Integer realStateAgentId) throws EntityNotFoundException;
+    List<RealEstateAgentModel> deleteRealEstateAgent(Integer userId, Integer realEstateAgentId) throws EntityNotFoundException;
 
 
 }

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import project.exceptions.messages.DefaultMessage;
 import project.models.CategoryModel;
 import project.models.PropertyModel;
-import project.models.RealStateAgentModel;
 import project.services.PropertyService;
 import project.validators.PropertyModelValidator;
 
@@ -116,7 +115,7 @@ public class PropertyController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "Categories associated with the property"),
             @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
-            @ApiResponse(code = 404, message = "Real state agent has not been found", response = DefaultMessage.class)
+            @ApiResponse(code = 404, message = "Real estate agent has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{id}/categories", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<List<CategoryModel>> getCategories(@PathVariable Integer id) {
