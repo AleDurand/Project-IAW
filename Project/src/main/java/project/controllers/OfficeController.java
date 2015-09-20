@@ -1,9 +1,15 @@
 package project.controllers;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import project.exceptions.messages.DefaultMessage;
+import project.models.CategoryModel;
 import project.models.OfficeModel;
 import project.services.OfficeService;
 import project.validators.OfficeModelValidator;
@@ -12,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/offices")
+@Api(value = "/offices", description = "Manage offices")
 public class OfficeController {
     @Autowired
     private OfficeService officeService;
@@ -19,6 +26,15 @@ public class OfficeController {
     @Autowired
     private OfficeModelValidator officeValidator;
 
+    @ApiOperation(
+            value = "Creates a new office",
+            notes = "",
+            response = OfficeModel.class
+    )
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Office created", response = OfficeModel.class),
+            @ApiResponse(code = 400, message = "Constrains fails", response = DefaultMessage.class)
+    })
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public ResponseEntity<OfficeModel> create(@RequestBody OfficeModel office) {
         officeValidator.validateForCreate(office);
@@ -26,12 +42,32 @@ public class OfficeController {
         return new ResponseEntity<>(toReturn, HttpStatus.CREATED);
     }
 
+    @ApiOperation(
+            value = "Returns an office by id",
+            notes = "",
+            response = OfficeModel.class
+    )
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Office has been found", response = OfficeModel.class),
+            @ApiResponse(code = 400, message = "Invalid Id", response = DefaultMessage.class),
+            @ApiResponse(code = 404, message = "Office has not been found", response = OfficeModel.class)
+    })
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<OfficeModel> read(@PathVariable Integer id) {
         OfficeModel toReturn = officeService.read(id);
         return new ResponseEntity<>(toReturn, HttpStatus.OK);
     }
 
+    @ApiOperation(
+            value = "Updates an office by id",
+            notes = "",
+            response = CategoryModel.class
+    )
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Office updated", response = OfficeModel.class),
+            @ApiResponse(code = 400, message = "Constrains fails or invalid id", response = DefaultMessage.class),
+            @ApiResponse(code = 404, message = "Office has not been found", response = DefaultMessage.class)
+    })
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
     public ResponseEntity<OfficeModel> update(@PathVariable Integer id, @RequestBody OfficeModel office) {
         officeValidator.validateForUpdate(office);
@@ -39,12 +75,30 @@ public class OfficeController {
         return new ResponseEntity<>(toReturn, HttpStatus.OK);
     }
 
+    @ApiOperation(
+            value = "Deletes an office by id",
+            notes = ""
+    )
+    @ApiResponses({
+            @ApiResponse(code = 204, message = "Office deleted"),
+            @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
+            @ApiResponse(code = 404, message = "Office has not been found", response = DefaultMessage.class)
+    })
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         officeService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @ApiOperation(
+            value = "Gets all offices",
+            notes = "",
+            response = OfficeModel.class,
+            responseContainer = "List"
+    )
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Offices returned")
+    })
     @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<List<OfficeModel>> getAll() {
         List<OfficeModel> offices = officeService.getAll();

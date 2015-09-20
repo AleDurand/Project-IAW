@@ -51,7 +51,7 @@ public class UserController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "User found", response = UserModel.class),
             @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
-            @ApiResponse(code = 404, message = "User not found", response = DefaultMessage.class)
+            @ApiResponse(code = 404, message = "User has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<UserModel> read(@PathVariable Integer id) {
@@ -67,7 +67,7 @@ public class UserController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "User updated", response = UserModel.class),
             @ApiResponse(code = 400, message = "Constrains fails or invalid id", response = DefaultMessage.class),
-            @ApiResponse(code = 404, message = "User not found", response = DefaultMessage.class)
+            @ApiResponse(code = 404, message = "User has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
     public ResponseEntity<UserModel> update(@PathVariable Integer id, @RequestBody UserModel user) {
@@ -83,7 +83,7 @@ public class UserController {
     @ApiResponses({
             @ApiResponse(code = 204, message = "User deleted"),
             @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
-            @ApiResponse(code = 404, message = "User not found", response = DefaultMessage.class)
+            @ApiResponse(code = 404, message = "User has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
@@ -98,7 +98,7 @@ public class UserController {
             responseContainer = "List"
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message = "User returned")
+            @ApiResponse(code = 200, message = "Users returned"),
     })
     @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<List<UserModel>> getAll() {
@@ -106,18 +106,51 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    @ApiOperation(
+            value = "Gets all real state agents belongs to a particular user",
+            notes = "",
+            response = RealStateAgentModel.class,
+            responseContainer = "List"
+    )
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Real state agents associated with the user"),
+            @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
+            @ApiResponse(code = 404, message = "User has not been found", response = DefaultMessage.class)
+    })
     @RequestMapping(value = "/{id}/real-state-agents", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<List<RealStateAgentModel>> getRealStateAgents(@PathVariable Integer id) {
         List<RealStateAgentModel> realStateAgents = userService.getRealStateAgents(id);
         return new ResponseEntity<>(realStateAgents, HttpStatus.OK);
     }
 
+    @ApiOperation(
+            value = "Associate a real state agent with a particular user",
+            notes = "",
+            response = RealStateAgentModel.class,
+            responseContainer = "List"
+    )
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Real state agents associated with the user"),
+            @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
+            @ApiResponse(code = 404, message = "User or real state agent has not been found", response = DefaultMessage.class)
+    })
     @RequestMapping(value = "/{userId}/real-state-agents/{realStateAgentId}", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<List<RealStateAgentModel>> addRealStateAgent(@PathVariable Integer userId, @PathVariable Integer realStateAgentId) {
         List<RealStateAgentModel> realStateAgents = userService.addRealStateAgents(userId, realStateAgentId);
         return new ResponseEntity<>(realStateAgents, HttpStatus.OK);
     }
 
+    @ApiOperation(
+            value = "Removes the association between a user and a real state agent",
+            notes = "",
+            response = RealStateAgentModel.class,
+            responseContainer = "List"
+    )
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Real state agents associated with the user"),
+            @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
+            @ApiResponse(code = 404, message = "User or real state agent has not been found", response = DefaultMessage.class)
+    })
     @RequestMapping(value = "/{userId}/real-state-agents/{realStateAgentId}", method = RequestMethod.DELETE, produces = "application/json")
     public ResponseEntity<List<RealStateAgentModel>> deleteRealStateAgent(@PathVariable Integer userId, @PathVariable Integer realStateAgentId) {
         List<RealStateAgentModel> realStateAgents = userService.deleteRealSateAgent(userId, realStateAgentId);

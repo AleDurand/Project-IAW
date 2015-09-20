@@ -1,12 +1,15 @@
 package project.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "address")
+@ApiModel(value = "Address", description = "Address representation")
 public class AddressModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -14,18 +17,23 @@ public class AddressModel implements Serializable {
     @JsonIgnore
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", unique = true, nullable = false)
+    @ApiModelProperty(name = "Id", value = "Address id", required = false)
     private Integer id;
 
     @Column(name = "street", nullable = false)
+    @ApiModelProperty(name = "Street", value = "Address street", required = true)
     private String street;
 
     @Column(name = "suite")
+    @ApiModelProperty(name = "Suite", value = "Address suite", required = false)
     private String suite;
 
     @Column(name = "city", nullable = false)
+    @ApiModelProperty(name = "City", value = "Address city", required = true)
     private String city;
 
     @Column(name = "zip_code", nullable = false)
+    @ApiModelProperty(name = "Zip Code", value = "Address zip code", required = true)
     private Integer zipCode;
 
     @Embedded

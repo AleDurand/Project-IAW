@@ -24,18 +24,19 @@ public class PropertyModel {
 
     @OneToOne
     @JoinColumn(name = "address_id")
+    @ApiModelProperty(name = "Address", value = "Property address", required = true)
     private AddressModel address;
 
     @Column(name = "description")
     @ApiModelProperty(name = "Description", value = "Property description", required = false)
     private String description;
 
-    @ApiModelProperty(name = "Rooms", value = "Property rooms", required = false)
     @Column(name = "rooms")
+    @ApiModelProperty(name = "Rooms", value = "Property rooms", required = false)
     private Integer rooms;
 
-    @ApiModelProperty(name = "Size", value = "Property size", required = false)
     @Column(name = "size")
+    @ApiModelProperty(name = "Size", value = "Property size", required = false)
     private Integer size;
 
 
