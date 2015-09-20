@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.exceptions.EntityNotFoundException;
 import project.models.OfficeModel;
+import project.repositories.AddressRepository;
 import project.repositories.OfficeRepository;
 import project.services.OfficeService;
 
@@ -14,8 +15,12 @@ public class OfficeServiceImplementation implements OfficeService {
     @Autowired
     private OfficeRepository officeRepository;
 
+    @Autowired
+    private AddressRepository addressRepository;
+    
     @Override
     public OfficeModel create(OfficeModel office) {
+        office.setAddress(addressRepository.save(office.getAddress()));
         return officeRepository.save(office);
     }
 
@@ -34,7 +39,17 @@ public class OfficeServiceImplementation implements OfficeService {
             throw new EntityNotFoundException("Office", id);
         if (office.getName() != null) toReturn.setName(office.getName());
         if (office.getPhone() != null) toReturn.setPhone(office.getPhone());
-        if (office.getAddress() != null) toReturn.setAddress(office.getAddress());
+        if (office.getAddress() != null) {
+            if (office.getAddress().getCity() != null) toReturn.getAddress().setCity(office.getAddress().getCity());
+            if (office.getAddress().getStreet() != null)
+                toReturn.getAddress().setStreet(office.getAddress().getStreet());
+            if (office.getAddress().getSuite() != null)
+                toReturn.getAddress().setSuite(office.getAddress().getSuite());
+            if (office.getAddress().getZipCode() != null)
+                toReturn.getAddress().setZipCode(office.getAddress().getZipCode());
+            if (office.getAddress().getGeoLocation() != null)
+                toReturn.getAddress().setGeoLocation(office.getAddress().getGeoLocation());
+        }
         return officeRepository.save(toReturn);
     }
 
