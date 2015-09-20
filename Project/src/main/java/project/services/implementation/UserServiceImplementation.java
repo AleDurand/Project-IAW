@@ -9,7 +9,6 @@ import project.models.UserModel;
 import project.repositories.RealStateAgentRepository;
 import project.repositories.UserRepository;
 import project.services.UserService;
-import project.validators.UserModelValidator;
 
 import java.util.List;
 
@@ -22,12 +21,8 @@ public class UserServiceImplementation implements UserService {
     @Autowired
     private RealStateAgentRepository realStateAgentRepository;
 
-    @Autowired
-    private UserModelValidator userValidator;
-
     @Override
     public UserModel create(UserModel user) {
-        userValidator.validateForCreate(user);
         if (userRepository.findByUsername(user.getUsername()) != null)
             throw new EntityAlreadyExistsException("User", "username", user.getUsername());
         return userRepository.save(user);
@@ -43,7 +38,6 @@ public class UserServiceImplementation implements UserService {
 
     @Override
     public UserModel update(Integer id, UserModel user) {
-        userValidator.validateForUpdate(user);
         UserModel toReturn = userRepository.findById(id);
         if (toReturn == null)
             throw new EntityNotFoundException("User", id);

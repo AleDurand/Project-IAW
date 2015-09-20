@@ -2,6 +2,8 @@ package project.services.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import project.exceptions.EntityAlreadyExistsException;
+import project.exceptions.EntityNotFoundException;
 import project.models.OfficeModel;
 import project.models.PropertyModel;
 import project.models.RealStateAgentModel;
@@ -23,19 +25,26 @@ public class RealStateAgentServiceImplementation implements RealStateAgentServic
 
     @Override
     public RealStateAgentModel create(RealStateAgentModel realStateAgent) {
-        RealStateAgentModel toReturn = realStateAgentRepository.save(realStateAgent);
-        return toReturn;
+        if (realStateAgentRepository.findByName(realStateAgent.getName()) != null)
+            throw new EntityAlreadyExistsException("RealStateAgent", "name", realStateAgent.getName());
+        return realStateAgentRepository.save(realStateAgent);
     }
 
     @Override
     public RealStateAgentModel read(Integer id) {
         RealStateAgentModel toReturn = realStateAgentRepository.findById(id);
+        if (toReturn == null)
+            throw new EntityNotFoundException("RealStateAgent", id);
         return toReturn;
     }
 
     @Override
     public RealStateAgentModel update(Integer id, RealStateAgentModel realStateAgent) {
         RealStateAgentModel toReturn = realStateAgentRepository.findById(id);
+        if (toReturn == null)
+            throw new EntityNotFoundException("RealStateAgent", id);
+        if (realStateAgentRepository.findByName(realStateAgent.getName()) != null)
+            throw new EntityAlreadyExistsException("RealStateAgent", "name", realStateAgent.getName());
         if (realStateAgent.getName() != null) toReturn.setName(realStateAgent.getName());
         if (realStateAgent.getDescription() != null) toReturn.setDescription(realStateAgent.getDescription());
         if (realStateAgent.getEmail() != null) toReturn.setEmail(realStateAgent.getEmail());
@@ -46,6 +55,9 @@ public class RealStateAgentServiceImplementation implements RealStateAgentServic
 
     @Override
     public void delete(Integer id) {
+        RealStateAgentModel toReturn = realStateAgentRepository.findById(id);
+        if (toReturn == null)
+            throw new EntityNotFoundException("RealStateAgent", id);
         realStateAgentRepository.delete(id);
     }
 

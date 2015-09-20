@@ -7,6 +7,6 @@ import project.models.OfficeModel;
 @Repository
 public interface OfficeRepository extends JpaRepository<OfficeModel, Integer> {
 
-    public OfficeModel findById(Integer id);
+    OfficeModel findById(Integer id);
 
 }

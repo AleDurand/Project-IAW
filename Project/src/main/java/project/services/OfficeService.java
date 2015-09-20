@@ -1,18 +1,20 @@
 package project.services;
 
+import project.exceptions.EntityNotFoundException;
+import project.exceptions.InvalidIdException;
 import project.models.OfficeModel;
 
 import java.util.List;
 
 public interface OfficeService {
 
-    public OfficeModel create(OfficeModel office);
+    OfficeModel create(OfficeModel office);
 
-    public OfficeModel read(Integer id);
+    OfficeModel read(Integer id) throws EntityNotFoundException, InvalidIdException;
 
-    public OfficeModel update(Integer id, OfficeModel office);
+    OfficeModel update(Integer id, OfficeModel office) throws InvalidIdException;
 
-    public void delete(Integer id);
+    void delete(Integer id) throws EntityNotFoundException, InvalidIdException;
 
-    public List<OfficeModel> getAll();
+    List<OfficeModel> getAll();
 }

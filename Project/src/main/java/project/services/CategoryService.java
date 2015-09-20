@@ -1,20 +1,23 @@
 package project.services;
 
 
+import project.exceptions.EntityAlreadyExistsException;
+import project.exceptions.EntityNotFoundException;
+import project.exceptions.InvalidIdException;
 import project.models.CategoryModel;
 
 import java.util.List;
 
 public interface CategoryService {
 
-    public CategoryModel create(CategoryModel category);
+    CategoryModel create(CategoryModel category) throws EntityAlreadyExistsException;
 
-    public CategoryModel read(Integer id);
+    CategoryModel read(Integer id) throws EntityNotFoundException, InvalidIdException;
 
-    public CategoryModel update(Integer id, CategoryModel category);
+    CategoryModel update(Integer id, CategoryModel category) throws InvalidIdException, EntityAlreadyExistsException;
 
-    public void delete(Integer id);
+    void delete(Integer id) throws EntityNotFoundException, InvalidIdException;
 
-    public List<CategoryModel> getAll();
+    List<CategoryModel> getAll();
 
 }

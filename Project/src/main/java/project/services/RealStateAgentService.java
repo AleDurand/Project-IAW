@@ -1,5 +1,8 @@
 package project.services;
 
+import project.exceptions.EntityAlreadyExistsException;
+import project.exceptions.EntityNotFoundException;
+import project.exceptions.InvalidIdException;
 import project.models.OfficeModel;
 import project.models.PropertyModel;
 import project.models.RealStateAgentModel;
@@ -8,26 +11,26 @@ import java.util.List;
 
 public interface RealStateAgentService {
 
-    public RealStateAgentModel create(RealStateAgentModel realStateAgent);
+    RealStateAgentModel create(RealStateAgentModel realStateAgent) throws EntityAlreadyExistsException;
 
-    public RealStateAgentModel read(Integer id);
+    RealStateAgentModel read(Integer id) throws EntityNotFoundException, InvalidIdException;
 
-    public RealStateAgentModel update(Integer id, RealStateAgentModel realStateAgent);
+    RealStateAgentModel update(Integer id, RealStateAgentModel realStateAgent) throws InvalidIdException, EntityAlreadyExistsException;
 
-    public void delete(Integer id);
+    void delete(Integer id) throws EntityNotFoundException, InvalidIdException;
 
-    public List<RealStateAgentModel> getAll();
+    List<RealStateAgentModel> getAll();
 
-    public List<OfficeModel> addOffice(Integer realStateAgentId, Integer officeId);
+    List<OfficeModel> addOffice(Integer realStateAgentId, Integer officeId);
 
-    public List<OfficeModel> getOffices(Integer realStateAgentId);
+    List<OfficeModel> getOffices(Integer realStateAgentId);
 
-    public List<OfficeModel> deleteOffice(Integer realStateAgentId, Integer officeId);
+    List<OfficeModel> deleteOffice(Integer realStateAgentId, Integer officeId);
 
-    public List<PropertyModel> addProperty(Integer realStateAgentId, Integer propertyId);
+    List<PropertyModel> addProperty(Integer realStateAgentId, Integer propertyId);
 
-    public List<PropertyModel> getProperties(Integer realStateAgentId);
+    List<PropertyModel> getProperties(Integer realStateAgentId);
 
-    public List<PropertyModel> deleteProperty(Integer realStateAgentId, Integer propertyId);
+    List<PropertyModel> deleteProperty(Integer realStateAgentId, Integer propertyId);
 
 }

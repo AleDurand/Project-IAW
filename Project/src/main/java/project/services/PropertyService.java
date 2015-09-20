@@ -1,6 +1,8 @@
 package project.services;
 
 
+import project.exceptions.EntityNotFoundException;
+import project.exceptions.InvalidIdException;
 import project.models.CategoryModel;
 import project.models.PropertyModel;
 
@@ -8,20 +10,20 @@ import java.util.List;
 
 public interface PropertyService {
 
-    public PropertyModel create(PropertyModel property);
+    PropertyModel create(PropertyModel property);
 
-    public PropertyModel read(Integer id);
+    PropertyModel read(Integer id) throws EntityNotFoundException, InvalidIdException;
 
-    public PropertyModel update(Integer id, PropertyModel property);
+    PropertyModel update(Integer id, PropertyModel property) throws InvalidIdException;
 
-    public void delete(Integer id);
+    void delete(Integer id) throws EntityNotFoundException, InvalidIdException;
 
-    public List<PropertyModel> getAll();
+    List<PropertyModel> getAll();
 
-    public List<CategoryModel> addCategory(Integer propertyId, Integer categoryId);
+    List<CategoryModel> addCategory(Integer propertyId, Integer categoryId);
 
-    public List<CategoryModel> getCategories(Integer propertyId);
+    List<CategoryModel> getCategories(Integer propertyId);
 
-    public List<CategoryModel> deleteCategory(Integer propertyId, Integer categoryId);
+    List<CategoryModel> deleteCategory(Integer propertyId, Integer categoryId);
 
 }
