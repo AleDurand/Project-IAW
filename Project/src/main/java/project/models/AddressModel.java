@@ -1,15 +1,20 @@
 package project.models;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.Embedded;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Embeddable
 @Table(name = "address")
 public class AddressModel implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    @Id
+    @JsonIgnore
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", unique = true, nullable = false)
+    private Integer id;
 
     @Column(name = "street", nullable = false)
     private String street;
@@ -30,13 +35,21 @@ public class AddressModel implements Serializable {
 
     }
 
-    public AddressModel(String street, String suite, String city, Integer zipCode, GeoLocationModel geoLocation) {
-        super();
+    public AddressModel(Integer id, String street, String suite, String city, Integer zipCode, GeoLocationModel geoLocation) {
+        this.id = id;
         this.street = street;
         this.suite = suite;
         this.city = city;
         this.zipCode = zipCode;
         this.geoLocation = geoLocation;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getStreet() {

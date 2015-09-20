@@ -11,7 +11,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "user")
-
 @ApiModel(value = "User", description = "User representation")
 public class UserModel implements Serializable {
     private static final long serialVersionUID = 1L;

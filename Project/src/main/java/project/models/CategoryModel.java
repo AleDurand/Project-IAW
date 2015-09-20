@@ -1,20 +1,27 @@
 package project.models;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "category")
+@ApiModel(value = "Category", description = "Category representation")
 public class CategoryModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
+    @ApiModelProperty(name = "Id", value = "Category id", required = false)
     private Integer id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
+    @ApiModelProperty(name = "Name", value = "Category name", required = true)
     private String name;
 
     @Column(name = "description")
+    @ApiModelProperty(name = "Description", value = "Category description", required = false)
     private String description;
 
     public CategoryModel() {

@@ -19,7 +19,8 @@ public class OfficeModel implements Serializable {
     @Column(name = "phone")
     private String phone;
 
-    @Embedded
+    @OneToOne
+    @JoinColumn(name = "address_id")
     private AddressModel address;
 
     public OfficeModel() {
