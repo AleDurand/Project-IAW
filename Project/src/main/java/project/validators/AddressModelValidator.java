@@ -19,6 +19,12 @@ public class AddressModelValidator {
 
         if (address.getZipCode() < 0)
             throw new InvalidEntityConstraintsException("Address", "ZipCode is less than 0.");
+
+        if (address.getGeoLocation() == null)
+            throw new InvalidEntityConstraintsException("Address", "Geolocation is null.");
+
+        if (address.getGeoLocation().getLatitude() == null || address.getGeoLocation().getLongitude() == null)
+            throw new InvalidEntityConstraintsException("Address", "Geolocation is not complete.");
     }
 
     public void validateForUpdate(AddressModel address) throws InvalidEntityConstraintsException {
@@ -28,10 +34,11 @@ public class AddressModelValidator {
         if (address.getCity() != null && address.getCity().isEmpty())
             throw new InvalidEntityConstraintsException("Address", "City null or is empty.");
 
-        if (address.getZipCode() == null)
-            throw new InvalidEntityConstraintsException("Address", "ZipCode is null.");
-
-        if (address.getZipCode() < 0)
+        if (address.getZipCode() != null && address.getZipCode() < 0)
             throw new InvalidEntityConstraintsException("Address", "ZipCode is less than 0.");
+
+        if (address.getGeoLocation() != null)
+            if (address.getGeoLocation().getLatitude() == null || address.getGeoLocation().getLongitude() == null)
+                throw new InvalidEntityConstraintsException("Address", "Geolocation is not complete.");
     }
 }

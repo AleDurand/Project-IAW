@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import project.exceptions.EntityNotFoundException;
 import project.models.CategoryModel;
 import project.models.PropertyModel;
+import project.repositories.AddressRepository;
 import project.repositories.CategoryRepository;
 import project.repositories.PropertyRepository;
 import project.services.PropertyService;
@@ -17,9 +18,12 @@ public class PropertyServiceImplementation implements PropertyService {
     private PropertyRepository propertyRepository;
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private AddressRepository addressRepository;
 
     @Override
     public PropertyModel create(PropertyModel property) {
+        property.setAddress(addressRepository.save(property.getAddress()));
         return propertyRepository.save(property);
     }
 
@@ -41,6 +45,18 @@ public class PropertyServiceImplementation implements PropertyService {
         if (property.getSize() != null) toReturn.setSize(property.getSize());
         if (property.getState() != null) toReturn.setState(property.getState());
         if (property.getOperation() != null) toReturn.setOperation(property.getOperation());
+        if (property.getAddress() != null) {
+            if (property.getAddress().getCity() != null) toReturn.getAddress().setCity(property.getAddress().getCity());
+            if (property.getAddress().getStreet() != null)
+                toReturn.getAddress().setStreet(property.getAddress().getStreet());
+            if (property.getAddress().getSuite() != null)
+                toReturn.getAddress().setSuite(property.getAddress().getSuite());
+            if (property.getAddress().getZipCode() != null)
+                toReturn.getAddress().setZipCode(property.getAddress().getZipCode());
+            if (property.getAddress().getGeoLocation() != null)
+                toReturn.getAddress().setGeoLocation(property.getAddress().getGeoLocation());
+        }
+
         return propertyRepository.save(toReturn);
     }
 

@@ -32,7 +32,7 @@ public class PropertyModelValidator {
             throw new InvalidEntityConstraintsException("Property", "Size is less than 0.");
 
         if (property.getAddress() != null)
-            addressValidator.validateForCreate(property.getAddress());
+            addressValidator.validateForUpdate(property.getAddress());
 
         //TODO Add validator for operation field
     }
