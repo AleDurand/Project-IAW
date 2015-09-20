@@ -36,7 +36,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `real_state_agent_db`.`address` ;
 
 CREATE TABLE IF NOT EXISTS `real_state_agent_db`.`address` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `street` VARCHAR(45) NOT NULL,
   `suite` VARCHAR(45) NULL,
   `city` VARCHAR(45) NOT NULL,
