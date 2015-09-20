@@ -121,6 +121,6 @@ public class UserController {
     @RequestMapping(value = "/{userId}/real-state-agents/{realStateAgentId}", method = RequestMethod.DELETE, produces = "application/json")
     public ResponseEntity<List<RealStateAgentModel>> deleteRealStateAgent(@PathVariable Integer userId, @PathVariable Integer realStateAgentId) {
         List<RealStateAgentModel> realStateAgents = userService.deleteRealSateAgent(userId, realStateAgentId);
-        return new ResponseEntity<>(realStateAgents, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(realStateAgents, HttpStatus.OK);
     }
 }

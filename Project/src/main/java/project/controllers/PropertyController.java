@@ -68,6 +68,6 @@ public class PropertyController {
     @RequestMapping(value = "/{propertyId}/categories/{categoryId}", method = RequestMethod.DELETE, produces = "application/json")
     public ResponseEntity<List<CategoryModel>> deleteCategory(@PathVariable Integer propertyId, @PathVariable Integer categoryId) {
         List<CategoryModel> categories = propertyService.deleteCategory(propertyId, categoryId);
-        return new ResponseEntity<>(categories, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 }

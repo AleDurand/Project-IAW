@@ -87,6 +87,6 @@ public class RealStateAgentController {
     @RequestMapping(value = "/{realStateAgentId}/properties/{propertyId}", method = RequestMethod.DELETE, produces = "application/json")
     public ResponseEntity<List<PropertyModel>> deleteProperty(@PathVariable Integer realStateAgentId, @PathVariable Integer propertyId) {
         List<PropertyModel> properties = realStateAgentService.deleteProperty(realStateAgentId, propertyId);
-        return new ResponseEntity<>(properties, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(properties, HttpStatus.OK);
     }
 }
