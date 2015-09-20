@@ -63,7 +63,11 @@ public class UserServiceImplementation implements UserService {
     @Override
     public List<RealStateAgentModel> addRealStateAgents(Integer userId, Integer realStateAgentId) {
         UserModel user = userRepository.findById(userId);
+        if (user == null)
+            throw new EntityNotFoundException("User", userId);
         RealStateAgentModel realSateAgent = realStateAgentRepository.findById(realStateAgentId);
+        if (realSateAgent == null)
+            throw new EntityNotFoundException("RealStateAgent", realStateAgentId);
         user.getRealStateAgents().add(realSateAgent);
         userRepository.save(user);
         return user.getRealStateAgents();
@@ -71,13 +75,20 @@ public class UserServiceImplementation implements UserService {
 
     @Override
     public List<RealStateAgentModel> getRealStateAgents(Integer userId) {
-        return userRepository.findById(userId).getRealStateAgents();
+        UserModel user = userRepository.findById(userId);
+        if (user == null)
+            throw new EntityNotFoundException("User", userId);
+        return user.getRealStateAgents();
     }
 
     @Override
     public List<RealStateAgentModel> deleteRealSateAgent(Integer userId, Integer realStateAgentId) {
         UserModel user = userRepository.findById(userId);
+        if (user == null)
+            throw new EntityNotFoundException("User", userId);
         RealStateAgentModel realSateAgent = realStateAgentRepository.findById(realStateAgentId);
+        if (realSateAgent == null)
+            throw new EntityNotFoundException("RealStateAgent", realStateAgentId);
         user.getRealStateAgents().remove(realSateAgent);
         userRepository.save(user);
         return user.getRealStateAgents();

@@ -20,10 +20,10 @@ public interface PropertyService {
 
     List<PropertyModel> getAll();
 
-    List<CategoryModel> addCategory(Integer propertyId, Integer categoryId);
+    List<CategoryModel> addCategory(Integer propertyId, Integer categoryId) throws EntityNotFoundException;
 
-    List<CategoryModel> getCategories(Integer propertyId);
+    List<CategoryModel> getCategories(Integer propertyId) throws EntityNotFoundException;
 
-    List<CategoryModel> deleteCategory(Integer propertyId, Integer categoryId);
+    List<CategoryModel> deleteCategory(Integer propertyId, Integer categoryId) throws EntityNotFoundException;
 
 }

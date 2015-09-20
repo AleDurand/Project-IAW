@@ -20,11 +20,11 @@ public interface UserService {
 
     List<UserModel> getAll();
 
-    List<RealStateAgentModel> addRealStateAgents(Integer userId, Integer realStateAgentId);
+    List<RealStateAgentModel> addRealStateAgents(Integer userId, Integer realStateAgentId) throws EntityNotFoundException;
 
-    List<RealStateAgentModel> getRealStateAgents(Integer userId);
+    List<RealStateAgentModel> getRealStateAgents(Integer userId) throws EntityNotFoundException;
 
-    List<RealStateAgentModel> deleteRealSateAgent(Integer userId, Integer realStateAgentId);
+    List<RealStateAgentModel> deleteRealSateAgent(Integer userId, Integer realStateAgentId) throws EntityNotFoundException;
 
 
 }

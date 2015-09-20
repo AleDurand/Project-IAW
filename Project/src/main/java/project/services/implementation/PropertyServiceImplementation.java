@@ -60,7 +60,11 @@ public class PropertyServiceImplementation implements PropertyService {
     @Override
     public List<CategoryModel> addCategory(Integer propertyId, Integer categoryId) {
         PropertyModel property = propertyRepository.findById(propertyId);
+        if (property == null)
+            throw new EntityNotFoundException("Property", propertyId);
         CategoryModel category = categoryRepository.findById(categoryId);
+        if (category == null)
+            throw new EntityNotFoundException("Category", categoryId);
         property.getCategories().add(category);
         propertyRepository.save(property);
         return property.getCategories();
@@ -68,13 +72,20 @@ public class PropertyServiceImplementation implements PropertyService {
 
     @Override
     public List<CategoryModel> getCategories(Integer propertyId) {
-        return propertyRepository.findById(propertyId).getCategories();
+        PropertyModel property = propertyRepository.findById(propertyId);
+        if (property == null)
+            throw new EntityNotFoundException("Property", propertyId);
+        return property.getCategories();
     }
 
     @Override
-    public List<CategoryModel> deleteCategory(Integer realStateAgentId, Integer categoryId) {
-        PropertyModel property = propertyRepository.findById(realStateAgentId);
+    public List<CategoryModel> deleteCategory(Integer propertyId, Integer categoryId) {
+        PropertyModel property = propertyRepository.findById(propertyId);
+        if (property == null)
+            throw new EntityNotFoundException("Property", propertyId);
         CategoryModel category = categoryRepository.findById(categoryId);
+        if (category == null)
+            throw new EntityNotFoundException("Category", categoryId);
         property.getCategories().remove(category);
         propertyRepository.save(property);
         return property.getCategories();

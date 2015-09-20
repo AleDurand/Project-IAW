@@ -21,16 +21,16 @@ public interface RealStateAgentService {
 
     List<RealStateAgentModel> getAll();
 
-    List<OfficeModel> addOffice(Integer realStateAgentId, Integer officeId);
+    List<OfficeModel> addOffice(Integer realStateAgentId, Integer officeId) throws EntityNotFoundException;
 
-    List<OfficeModel> getOffices(Integer realStateAgentId);
+    List<OfficeModel> getOffices(Integer realStateAgentId) throws EntityNotFoundException;
 
-    List<OfficeModel> deleteOffice(Integer realStateAgentId, Integer officeId);
+    List<OfficeModel> deleteOffice(Integer realStateAgentId, Integer officeId) throws EntityNotFoundException;
 
-    List<PropertyModel> addProperty(Integer realStateAgentId, Integer propertyId);
+    List<PropertyModel> addProperty(Integer realStateAgentId, Integer propertyId) throws EntityNotFoundException;
 
-    List<PropertyModel> getProperties(Integer realStateAgentId);
+    List<PropertyModel> getProperties(Integer realStateAgentId) throws EntityNotFoundException;
 
-    List<PropertyModel> deleteProperty(Integer realStateAgentId, Integer propertyId);
+    List<PropertyModel> deleteProperty(Integer realStateAgentId, Integer propertyId) throws EntityNotFoundException;
 
 }

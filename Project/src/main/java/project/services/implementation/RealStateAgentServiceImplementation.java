@@ -69,7 +69,11 @@ public class RealStateAgentServiceImplementation implements RealStateAgentServic
     @Override
     public List<OfficeModel> addOffice(Integer realStateAgentId, Integer officeId) {
         RealStateAgentModel realStateAgent = realStateAgentRepository.findById(realStateAgentId);
-        OfficeModel office = officeRepository.findById(realStateAgentId);
+        if (realStateAgent == null)
+            throw new EntityNotFoundException("RealStateAgent", realStateAgentId);
+        OfficeModel office = officeRepository.findById(officeId);
+        if (office == null)
+            throw new EntityNotFoundException("Office", officeId);
         realStateAgent.getOffices().add(office);
         realStateAgentRepository.save(realStateAgent);
         return realStateAgent.getOffices();
@@ -77,13 +81,20 @@ public class RealStateAgentServiceImplementation implements RealStateAgentServic
 
     @Override
     public List<OfficeModel> getOffices(Integer realStateAgentId) {
-        return realStateAgentRepository.findById(realStateAgentId).getOffices();
+        RealStateAgentModel realStateAgent = realStateAgentRepository.findById(realStateAgentId);
+        if (realStateAgent == null)
+            throw new EntityNotFoundException("RealStateAgent", realStateAgentId);
+        return realStateAgent.getOffices();
     }
 
     @Override
     public List<OfficeModel> deleteOffice(Integer realStateAgentId, Integer officeId) {
         RealStateAgentModel realStateAgent = realStateAgentRepository.findById(realStateAgentId);
+        if (realStateAgent == null)
+            throw new EntityNotFoundException("RealStateAgent", realStateAgentId);
         OfficeModel office = officeRepository.findById(officeId);
+        if (office == null)
+            throw new EntityNotFoundException("Office", officeId);
         realStateAgent.getOffices().remove(office);
         realStateAgentRepository.save(realStateAgent);
         return realStateAgent.getOffices();
@@ -92,7 +103,11 @@ public class RealStateAgentServiceImplementation implements RealStateAgentServic
     @Override
     public List<PropertyModel> addProperty(Integer realStateAgentId, Integer propertyId) {
         RealStateAgentModel realStateAgent = realStateAgentRepository.findById(realStateAgentId);
+        if (realStateAgent == null)
+            throw new EntityNotFoundException("RealStateAgent", realStateAgentId);
         PropertyModel property = propertyRepository.findById(propertyId);
+        if (property == null)
+            throw new EntityNotFoundException("Property", propertyId);
         realStateAgent.getProperties().add(property);
         realStateAgentRepository.save(realStateAgent);
         return realStateAgent.getProperties();
@@ -100,13 +115,20 @@ public class RealStateAgentServiceImplementation implements RealStateAgentServic
 
     @Override
     public List<PropertyModel> getProperties(Integer realStateAgentId) {
-        return realStateAgentRepository.findById(realStateAgentId).getProperties();
+        RealStateAgentModel realStateAgent = realStateAgentRepository.findById(realStateAgentId);
+        if (realStateAgent == null)
+            throw new EntityNotFoundException("RealStateAgent", realStateAgentId);
+        return realStateAgent.getProperties();
     }
 
     @Override
     public List<PropertyModel> deleteProperty(Integer realStateAgentId, Integer propertyId) {
         RealStateAgentModel realStateAgent = realStateAgentRepository.findById(realStateAgentId);
+        if (realStateAgent == null)
+            throw new EntityNotFoundException("RealStateAgent", realStateAgentId);
         PropertyModel property = propertyRepository.findById(propertyId);
+        if (property == null)
+            throw new EntityNotFoundException("Property", propertyId);
         realStateAgent.getProperties().remove(property);
         realStateAgentRepository.save(realStateAgent);
         return realStateAgent.getProperties();
