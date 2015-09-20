@@ -1,8 +1,10 @@
 package project.exceptions;
 
-public class EntityAlreadyExistsException extends Exception {
+import project.exceptions.messages.DefaultMessage;
+
+public class EntityAlreadyExistsException extends CustomException {
 
     public EntityAlreadyExistsException(String entityName, String fieldName, String fieldValue) {
-        super(String.format("%s: %s %s already exists.", entityName, fieldName, fieldValue));
+        super(new DefaultMessage(400, String.format("%s: %s %s already exists.", entityName, fieldName, fieldValue)));
     }
 }

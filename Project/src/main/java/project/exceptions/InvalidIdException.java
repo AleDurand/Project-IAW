@@ -1,8 +1,10 @@
 package project.exceptions;
 
-public class InvalidIdException extends Exception {
+import project.exceptions.messages.DefaultMessage;
 
-    public InvalidIdException(){
-        super("Invalid id. An integer was expected.");
+public class InvalidIdException extends CustomException {
+
+    public InvalidIdException() {
+        super(new DefaultMessage(400, "Invalid id. An integer was expected."));
     }
 }

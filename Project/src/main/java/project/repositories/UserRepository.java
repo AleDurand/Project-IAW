@@ -7,5 +7,7 @@ import project.models.UserModel;
 @Repository
 public interface UserRepository extends JpaRepository<UserModel, Integer> {
 
-    public UserModel findById(Integer id);
+    UserModel findById(Integer id);
+
+    UserModel findByUsername(String username);
 }

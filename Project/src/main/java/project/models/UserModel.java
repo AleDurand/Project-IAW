@@ -2,6 +2,8 @@ package project.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -9,18 +11,23 @@ import java.util.List;
 
 @Entity
 @Table(name = "user")
+
+@ApiModel(value = "User", description = "User representation")
 public class UserModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
+    @ApiModelProperty(name = "Id", value = "User id", required = false)
     private Integer id;
 
     @Column(name = "username", unique = true, nullable = false)
+    @ApiModelProperty(name = "User Name", value = "User name", required = true)
     private String username;
 
     @Column(name = "password", nullable = false)
+    @ApiModelProperty(name = "Password", value = "User password", required = true)
     private String password;
 
     @JsonIgnore

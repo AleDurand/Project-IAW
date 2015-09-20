@@ -13,12 +13,12 @@ import org.springframework.context.annotation.Configuration;
 @EnableAutoConfiguration
 public class ProjectApplication extends SpringBootServletInitializer {
 
+    public static void main(String[] args) {
+        SpringApplication.run(ProjectApplication.class, args);
+    }
+
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(ProjectApplication.class);
-    }
-
-    public static void main(String[] args) {
-        SpringApplication.run(ProjectApplication.class, args);
     }
 }

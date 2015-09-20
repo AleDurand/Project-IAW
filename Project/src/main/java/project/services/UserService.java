@@ -1,5 +1,7 @@
 package project.services;
 
+import project.exceptions.EntityAlreadyExistsException;
+import project.exceptions.InvalidEntityConstraintsException;
 import project.models.RealStateAgentModel;
 import project.models.UserModel;
 
@@ -7,21 +9,21 @@ import java.util.List;
 
 public interface UserService {
 
-    public UserModel create(UserModel user);
+    UserModel create(UserModel user) throws InvalidEntityConstraintsException, EntityAlreadyExistsException;
 
-    public UserModel read(Integer id);
+    UserModel read(Integer id);
 
-    public UserModel update(Integer id, UserModel user);
+    UserModel update(Integer id, UserModel user) throws InvalidEntityConstraintsException, EntityAlreadyExistsException;
 
-    public void delete(Integer id);
+    void delete(Integer id);
 
-    public List<UserModel> getAll();
+    List<UserModel> getAll();
 
-    public List<RealStateAgentModel> addRealStateAgents(Integer userId, Integer realStateAgentId);
+    List<RealStateAgentModel> addRealStateAgents(Integer userId, Integer realStateAgentId);
 
-    public List<RealStateAgentModel> getRealStateAgents(Integer userId);
+    List<RealStateAgentModel> getRealStateAgents(Integer userId);
 
-    public List<RealStateAgentModel> deleteRealSateAgent(Integer userId, Integer realStateAgentId);
+    List<RealStateAgentModel> deleteRealSateAgent(Integer userId, Integer realStateAgentId);
 
 
 }

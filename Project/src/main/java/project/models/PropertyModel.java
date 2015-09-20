@@ -9,33 +9,25 @@ import java.util.List;
 @Entity
 @Table(name = "property")
 public class PropertyModel {
+    @Enumerated(EnumType.STRING)
+    @Column(name = "state", columnDefinition = "ENUM('AVAILABLE', 'UNAVAILABLE')")
+    public StateEnum state;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
     private Integer id;
-
     @Column(name = "description")
     private String description;
-
     @Column(name = "rooms")
     private Integer rooms;
-
     @Column(name = "size")
     private Integer size;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "state", columnDefinition = "ENUM('AVAILABLE', 'UNAVAILABLE')")
-    public StateEnum state;
-
-    public enum StateEnum {AVAILABLE, UNAVAILABLE}
-
     @ElementCollection
     @CollectionTable(
             name = "operation",
             joinColumns = @JoinColumn(name = "property_id")
     )
     private List<OperationModel> operation;
-
     @JsonIgnore
     @ManyToMany
     @JoinTable(
@@ -112,4 +104,6 @@ public class PropertyModel {
     public void setCategories(List<CategoryModel> categories) {
         this.categories = categories;
     }
+
+    public enum StateEnum {AVAILABLE, UNAVAILABLE}
 }

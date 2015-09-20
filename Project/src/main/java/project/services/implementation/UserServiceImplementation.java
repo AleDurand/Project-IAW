@@ -2,11 +2,13 @@ package project.services.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import project.exceptions.EntityAlreadyExistsException;
 import project.models.RealStateAgentModel;
 import project.models.UserModel;
 import project.repositories.RealStateAgentRepository;
 import project.repositories.UserRepository;
 import project.services.UserService;
+import project.validators.UserModelValidator;
 
 import java.util.List;
 
@@ -15,28 +17,38 @@ public class UserServiceImplementation implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private RealStateAgentRepository realStateAgentRepository;
 
+    @Autowired
+    private UserModelValidator userValidator;
+
     @Override
     public UserModel create(UserModel user) {
-        UserModel toReturn = userRepository.save(user);
-        return toReturn;
+        userValidator.validateForCreate(user);
+        if (userRepository.findByUsername(user.getUsername()) != null)
+            throw new EntityAlreadyExistsException("User", "username", user.getUsername());
+
+        return userRepository.save(user);
     }
 
     @Override
     public UserModel read(Integer id) {
-        UserModel toReturn = userRepository.findById(id);
-        return toReturn;
+        return userRepository.findById(id);
     }
 
     @Override
     public UserModel update(Integer id, UserModel user) {
+        userValidator.validateForUpdate(user);
+        if (userRepository.findByUsername(user.getUsername()) != null)
+            throw new EntityAlreadyExistsException("User", "username", user.getUsername());
+
+
         UserModel toReturn = userRepository.findById(id);
         if (user.getUsername() != null) toReturn.setPassword(user.getPassword());
         if (user.getPassword() != null) toReturn.setUsername(user.getUsername());
-        userRepository.save(toReturn);
-        return toReturn;
+        return userRepository.save(toReturn);
     }
 
     @Override
@@ -72,3 +84,5 @@ public class UserServiceImplementation implements UserService {
         return user.getRealStateAgents();
     }
 }
+
+

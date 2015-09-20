@@ -1,8 +1,10 @@
 package project.exceptions;
 
-public class InvalidEntityConstraintsException extends Exception{
+import project.exceptions.messages.DefaultMessage;
 
-    public InvalidEntityConstraintsException(String entityName, String message){
-        super(String.format("%s: Constrains fails. %s", entityName, message));
+public class InvalidEntityConstraintsException extends CustomException {
+
+    public InvalidEntityConstraintsException(String entityName, String message) {
+        super(new DefaultMessage(400, String.format("%s: Constrains fails. %s", entityName, message)));
     }
 }
