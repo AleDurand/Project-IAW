@@ -30,7 +30,7 @@ public class UserController {
     )
     @ApiResponses({
             @ApiResponse(code = 201, message = "User created", response = UserModel.class),
-            @ApiResponse(code = 400, message = "Constrains fails.", response = DefaultMessage.class)
+            @ApiResponse(code = 400, message = "Constrains fails", response = DefaultMessage.class)
     })
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> create(@RequestBody UserModel user) {
@@ -38,24 +38,62 @@ public class UserController {
         return new ResponseEntity<>(toReturn, HttpStatus.CREATED);
     }
 
+    @ApiOperation(
+            value = "Gets a user by id",
+            notes = "",
+            response = UserModel.class
+    )
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "User found", response = UserModel.class),
+            @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
+            @ApiResponse(code = 404, message = "User not found", response = DefaultMessage.class)
+    })
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<UserModel> read(@PathVariable Integer id) {
         UserModel toReturn = userService.read(id);
         return new ResponseEntity<>(toReturn, HttpStatus.OK);
     }
 
+    @ApiOperation(
+            value = "Updates a user by id",
+            notes = "",
+            response = UserModel.class
+    )
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "User updated", response = UserModel.class),
+            @ApiResponse(code = 400, message = "Constrains fails or invalid id", response = DefaultMessage.class),
+            @ApiResponse(code = 404, message = "User not found", response = DefaultMessage.class)
+    })
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody UserModel user) {
         UserModel toReturn = userService.update(id, user);
         return new ResponseEntity<>(toReturn, HttpStatus.OK);
     }
 
+    @ApiOperation(
+            value = "Deletes a user by id",
+            notes = ""
+    )
+    @ApiResponses({
+            @ApiResponse(code = 204, message = "User deleted"),
+            @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
+            @ApiResponse(code = 404, message = "User not found", response = DefaultMessage.class)
+    })
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<String> delete(@PathVariable Integer id) {
         userService.delete(id);
         return new ResponseEntity<>("UserModel deleted.", HttpStatus.NO_CONTENT);
     }
 
+    @ApiOperation(
+            value = "Gets all users",
+            notes = "",
+            response = UserModel.class,
+            responseContainer = "List"
+    )
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "User returned")
+    })
     @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<List<UserModel>> getAll() {
         List<UserModel> users = userService.getAll();

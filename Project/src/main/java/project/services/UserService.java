@@ -1,7 +1,9 @@
 package project.services;
 
 import project.exceptions.EntityAlreadyExistsException;
+import project.exceptions.EntityNotFoundException;
 import project.exceptions.InvalidEntityConstraintsException;
+import project.exceptions.InvalidIdException;
 import project.models.RealStateAgentModel;
 import project.models.UserModel;
 
@@ -11,11 +13,11 @@ public interface UserService {
 
     UserModel create(UserModel user) throws InvalidEntityConstraintsException, EntityAlreadyExistsException;
 
-    UserModel read(Integer id);
+    UserModel read(Integer id) throws EntityNotFoundException, InvalidIdException;
 
     UserModel update(Integer id, UserModel user) throws InvalidEntityConstraintsException, EntityAlreadyExistsException;
 
-    void delete(Integer id);
+    void delete(Integer id) throws EntityNotFoundException, InvalidIdException;
 
     List<UserModel> getAll();
 

@@ -3,6 +3,7 @@ package project.services.implementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.exceptions.EntityAlreadyExistsException;
+import project.exceptions.EntityNotFoundException;
 import project.models.RealStateAgentModel;
 import project.models.UserModel;
 import project.repositories.RealStateAgentRepository;
@@ -29,23 +30,25 @@ public class UserServiceImplementation implements UserService {
         userValidator.validateForCreate(user);
         if (userRepository.findByUsername(user.getUsername()) != null)
             throw new EntityAlreadyExistsException("User", "username", user.getUsername());
-
         return userRepository.save(user);
     }
 
     @Override
     public UserModel read(Integer id) {
-        return userRepository.findById(id);
+        UserModel toReturn = userRepository.findById(id);
+        if (toReturn == null)
+            throw new EntityNotFoundException("User", id);
+        return toReturn;
     }
 
     @Override
     public UserModel update(Integer id, UserModel user) {
         userValidator.validateForUpdate(user);
+        UserModel toReturn = userRepository.findById(id);
+        if (toReturn == null)
+            throw new EntityNotFoundException("User", id);
         if (userRepository.findByUsername(user.getUsername()) != null)
             throw new EntityAlreadyExistsException("User", "username", user.getUsername());
-
-
-        UserModel toReturn = userRepository.findById(id);
         if (user.getUsername() != null) toReturn.setPassword(user.getPassword());
         if (user.getPassword() != null) toReturn.setUsername(user.getUsername());
         return userRepository.save(toReturn);
@@ -53,6 +56,8 @@ public class UserServiceImplementation implements UserService {
 
     @Override
     public void delete(Integer id) {
+        if (userRepository.findById(id) == null)
+            throw new EntityNotFoundException("User", id);
         userRepository.delete(id);
     }
 
