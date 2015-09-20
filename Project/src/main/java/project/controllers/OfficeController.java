@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.models.OfficeModel;
 import project.services.OfficeService;
+import project.validators.OfficeModelValidator;
 
 import java.util.List;
 
@@ -15,33 +16,38 @@ public class OfficeController {
     @Autowired
     private OfficeService officeService;
 
+    @Autowired
+    private OfficeModelValidator officeValidator;
+
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public ResponseEntity<OfficeModel> create(@RequestBody OfficeModel office) {
+        officeValidator.validateForCreate(office);
         OfficeModel toReturn = officeService.create(office);
-        return new ResponseEntity<OfficeModel>(toReturn, HttpStatus.OK);
+        return new ResponseEntity<>(toReturn, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<OfficeModel> read(@PathVariable Integer id) {
         OfficeModel toReturn = officeService.read(id);
-        return new ResponseEntity<OfficeModel>(toReturn, HttpStatus.OK);
+        return new ResponseEntity<>(toReturn, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
     public ResponseEntity<OfficeModel> update(@PathVariable Integer id, @RequestBody OfficeModel office) {
+        officeValidator.validateForUpdate(office);
         OfficeModel toReturn = officeService.update(id, office);
-        return new ResponseEntity<OfficeModel>(toReturn, HttpStatus.OK);
+        return new ResponseEntity<>(toReturn, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<String> delete(@PathVariable Integer id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
         officeService.delete(id);
-        return new ResponseEntity<String>("OfficeModel deleted.", HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<List<OfficeModel>> getAll() {
         List<OfficeModel> offices = officeService.getAll();
-        return new ResponseEntity<List<OfficeModel>>(offices, HttpStatus.OK);
+        return new ResponseEntity<>(offices, HttpStatus.OK);
     }
 }

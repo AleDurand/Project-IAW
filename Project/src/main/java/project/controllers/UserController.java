@@ -12,6 +12,7 @@ import project.exceptions.messages.DefaultMessage;
 import project.models.RealStateAgentModel;
 import project.models.UserModel;
 import project.services.UserService;
+import project.validators.UserModelValidator;
 
 import java.util.List;
 
@@ -23,6 +24,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserModelValidator userValidator;
+
     @ApiOperation(
             value = "Creates a new user",
             notes = "",
@@ -33,7 +37,8 @@ public class UserController {
             @ApiResponse(code = 400, message = "Constrains fails", response = DefaultMessage.class)
     })
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> create(@RequestBody UserModel user) {
+    public ResponseEntity<UserModel> create(@RequestBody UserModel user) {
+        userValidator.validateForCreate(user);
         UserModel toReturn = userService.create(user);
         return new ResponseEntity<>(toReturn, HttpStatus.CREATED);
     }
@@ -65,7 +70,8 @@ public class UserController {
             @ApiResponse(code = 404, message = "User not found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody UserModel user) {
+    public ResponseEntity<UserModel> update(@PathVariable Integer id, @RequestBody UserModel user) {
+        userValidator.validateForUpdate(user);
         UserModel toReturn = userService.update(id, user);
         return new ResponseEntity<>(toReturn, HttpStatus.OK);
     }
@@ -80,9 +86,9 @@ public class UserController {
             @ApiResponse(code = 404, message = "User not found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<String> delete(@PathVariable Integer id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
         userService.delete(id);
-        return new ResponseEntity<>("UserModel deleted.", HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @ApiOperation(
@@ -115,6 +121,6 @@ public class UserController {
     @RequestMapping(value = "/{userId}/real-state-agents/{realStateAgentId}", method = RequestMethod.DELETE, produces = "application/json")
     public ResponseEntity<List<RealStateAgentModel>> deleteRealStateAgent(@PathVariable Integer userId, @PathVariable Integer realStateAgentId) {
         List<RealStateAgentModel> realStateAgents = userService.deleteRealSateAgent(userId, realStateAgentId);
-        return new ResponseEntity<>(realStateAgents, HttpStatus.OK);
+        return new ResponseEntity<>(realStateAgents, HttpStatus.NO_CONTENT);
     }
 }
