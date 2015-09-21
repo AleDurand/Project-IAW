@@ -23,8 +23,10 @@ public class OfficeModelValidator {
         if (office.getPhone() != null && !pattern.matcher(office.getPhone()).matches())
             throw new InvalidEntityConstraintsException("Office", "Invalid phone format.");
 
-        if (office.getAddress() != null)
-            addressValidator.validateForCreate(office.getAddress());
+        if (office.getAddress() == null)
+            throw new InvalidEntityConstraintsException("Office", "Address is null.");
+
+        addressValidator.validateForCreate(office.getAddress());
 
     }
 

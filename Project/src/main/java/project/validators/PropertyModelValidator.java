@@ -18,8 +18,10 @@ public class PropertyModelValidator {
         if (property.getSize() != null && property.getSize() < 0)
             throw new InvalidEntityConstraintsException("Property", "Size is less than 0.");
 
-        if (property.getAddress() != null)
-            addressValidator.validateForCreate(property.getAddress());
+        if (property.getAddress() == null)
+            throw new InvalidEntityConstraintsException("Property", "Address is null.");
+
+        addressValidator.validateForCreate(property.getAddress());
 
         //TODO Add validator for operation field
     }
