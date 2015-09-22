@@ -11,7 +11,7 @@ buildscript {
         classpath("mysql:mysql-connector-java:5.1.36")
         //For generate PDF
         classpath('org.asciidoctor:asciidoctor-gradle-plugin:1.5.2')
-        classpath('org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.6')
+        classpath('org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.9')
         classpath('io.github.robwin:swagger2markup:0.8.0')
         classpath('io.github.robwin:swagger2markup-gradle-plugin:0.8.0')
     }
@@ -25,7 +25,7 @@ apply plugin: 'war'
 //For generate PDF
 apply plugin: 'org.asciidoctor.convert'
 apply plugin: 'io.github.robwin.swagger2markup'
-/*apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'*/
+//apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
 
 mainClassName = "project.ProjectApplication"
 
@@ -47,13 +47,13 @@ repositories {
 }
 
 configurations {
-    
+
 }
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
     compile("org.springframework.boot:spring-boot-starter-data-rest")
-    compile("io.springfox:springfox-swagger2:2.2.0")
+    compile("io.springfox:springfox-swagger2:2.2.2")
     compile("mysql:mysql-connector-java:5.1.36")
     //For testing
     testCompile("junit:junit")
@@ -79,26 +79,24 @@ task wrapper(type: Wrapper) {
     gradleVersion = '2.6'
 }
 
-
-
 //For generate PDF
 
 ext {
-	jsonInputPath = "http://localhost:8080/swagger.json"
+    jsonInputPath = "http://localhost:8080/swagger.json"
     swaggerOutputDir = file("src/docs/swagger")
     swaggerOutputFile = "swagger.json"
     asciiDocOutputDir = file("src/docs/asciidoc/generated")
 }
 
-/*gretty {
-    contextPath = '/'
-    integrationTestTask = 'getSwaggerJson'
-}*/
+//gretty {
+//    contextPath = '/'
+//    integrationTestTask = 'getSwaggerJson'
+//}
 
 task getSwaggerJson(dependsOn: 'classes', type: JavaExec) {
     main = "project.swagger.SwaggerJson"
     classpath = sourceSets.main.runtimeClasspath
-    args = [jsonInputPath,swaggerOutputDir,swaggerOutputFile]
+    args = [jsonInputPath, swaggerOutputDir, swaggerOutputFile]
 }
 
 convertSwagger2markup {
@@ -112,19 +110,19 @@ asciidoctor {
     sources {
         include 'index.adoc'
     }
-    backends = ['pdf']
+    backends = ['pdf','html5']
     attributes = [
             doctype    : 'book',
             toc        : 'left',
             toclevels  : '2',
-            numbered   : '',
+            numbered   : 'true',
             sectlinks  : '',
             sectanchors: '',
-            hardbreaks: '',
-            generated: asciiDocOutputDir
+            hardbreaks : '',
+            generated  : asciiDocOutputDir
     ]
 }
 
 task generateStaticDocumentation {
-	dependsOn asciidoctor
+    dependsOn asciidoctor
 }
