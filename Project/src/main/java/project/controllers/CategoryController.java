@@ -29,12 +29,13 @@ public class CategoryController {
     @ApiOperation(
             value = "Creates a new category",
             notes = "",
-            response = CategoryModel.class
+            code = 201
     )
     @ApiResponses({
             @ApiResponse(code = 201, message = "Category created", response = CategoryModel.class),
             @ApiResponse(code = 400, message = "Constrains fails", response = DefaultMessage.class)
     })
+    @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public ResponseEntity<CategoryModel> create(@RequestBody CategoryModel category) {
         categoryValidator.validateForCreate(category);
@@ -44,11 +45,10 @@ public class CategoryController {
 
     @ApiOperation(
             value = "Returns a category by id",
-            notes = "",
-            response = CategoryModel.class
+            notes = ""
     )
     @ApiResponses({
-            @ApiResponse(code = 201, message = "Category has been found", response = CategoryModel.class),
+            @ApiResponse(code = 200, message = "Category has been found", response = CategoryModel.class),
             @ApiResponse(code = 400, message = "Invalid Id", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "Category has not been found", response = CategoryModel.class)
     })
@@ -60,8 +60,7 @@ public class CategoryController {
 
     @ApiOperation(
             value = "Updates a category by id",
-            notes = "",
-            response = CategoryModel.class
+            notes = ""
     )
     @ApiResponses({
             @ApiResponse(code = 200, message = "Category updated", response = CategoryModel.class),
@@ -77,13 +76,15 @@ public class CategoryController {
 
     @ApiOperation(
             value = "Deletes a category by id",
-            notes = ""
+            notes = "",
+            code = 204
     )
     @ApiResponses({
             @ApiResponse(code = 204, message = "Category deleted"),
             @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "Category has not been found", response = DefaultMessage.class)
     })
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         categoryService.delete(id);
@@ -92,12 +93,10 @@ public class CategoryController {
 
     @ApiOperation(
             value = "Gets all categories",
-            notes = "",
-            response = CategoryModel.class,
-            responseContainer = "List"
+            notes = ""
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Categories returned")
+            @ApiResponse(code = 200, message = "Categories returned", response = CategoryModel.class, responseContainer = "List")
     })
     @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<List<CategoryModel>> getAll() {

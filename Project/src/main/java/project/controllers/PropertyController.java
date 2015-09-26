@@ -30,12 +30,13 @@ public class PropertyController {
     @ApiOperation(
             value = "Creates a new property",
             notes = "",
-            response = PropertyModel.class
+            code = 201
     )
     @ApiResponses({
             @ApiResponse(code = 201, message = "Property created", response = PropertyModel.class),
             @ApiResponse(code = 400, message = "Constrains fails", response = DefaultMessage.class)
     })
+    @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public ResponseEntity<PropertyModel> create(@RequestBody PropertyModel property) {
         propertyValidator.validateForCreate(property);
@@ -45,13 +46,12 @@ public class PropertyController {
 
     @ApiOperation(
             value = "Returns a property by id",
-            notes = "",
-            response = PropertyModel.class
+            notes = ""
     )
     @ApiResponses({
-            @ApiResponse(code = 201, message = "Property has been found", response = PropertyModel.class),
+            @ApiResponse(code = 200, message = "Property has been found", response = PropertyModel.class),
             @ApiResponse(code = 400, message = "Invalid Id", response = DefaultMessage.class),
-            @ApiResponse(code = 404, message = "Property has not been found", response = PropertyModel.class)
+            @ApiResponse(code = 404, message = "Property has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<PropertyModel> read(@PathVariable Integer id) {
@@ -61,8 +61,7 @@ public class PropertyController {
 
     @ApiOperation(
             value = "Updates a property by id",
-            notes = "",
-            response = PropertyModel.class
+            notes = ""
     )
     @ApiResponses({
             @ApiResponse(code = 200, message = "Property updated", response = PropertyModel.class),
@@ -78,13 +77,15 @@ public class PropertyController {
 
     @ApiOperation(
             value = "Deletes a property by id",
-            notes = ""
+            notes = "",
+            code = 204
     )
     @ApiResponses({
             @ApiResponse(code = 204, message = "Property deleted"),
             @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "Property has not been found", response = DefaultMessage.class)
     })
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         propertyService.delete(id);
@@ -93,12 +94,10 @@ public class PropertyController {
 
     @ApiOperation(
             value = "Gets all properties",
-            notes = "",
-            response = PropertyModel.class,
-            responseContainer = "List"
+            notes = ""
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Properties returned")
+            @ApiResponse(code = 200, message = "Properties returned", response = PropertyModel.class, responseContainer = "List")
     })
     @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<List<PropertyModel>> getAll() {
@@ -108,12 +107,10 @@ public class PropertyController {
 
     @ApiOperation(
             value = "Gets all categories belongs to a particular property",
-            notes = "",
-            response = CategoryModel.class,
-            responseContainer = "List"
+            notes = ""
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Categories associated with the property"),
+            @ApiResponse(code = 200, message = "Categories associated with the property", response = CategoryModel.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "Real estate agent has not been found", response = DefaultMessage.class)
     })
@@ -125,12 +122,10 @@ public class PropertyController {
 
     @ApiOperation(
             value = "Associate a category with a particular property",
-            notes = "",
-            response = CategoryModel.class,
-            responseContainer = "List"
+            notes = ""
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Categories associated with the property"),
+            @ApiResponse(code = 200, message = "Categories associated with the property", response = CategoryModel.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid id or association already exists", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "Category or property has not been found", response = DefaultMessage.class)
     })
@@ -142,12 +137,10 @@ public class PropertyController {
 
     @ApiOperation(
             value = "Removes the association between a category and a property",
-            notes = "",
-            response = CategoryModel.class,
-            responseContainer = "List"
+            notes = ""
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Categories associated with the property"),
+            @ApiResponse(code = 200, message = "Categories associated with the property", response = CategoryModel.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "Category or property or association has not been found", response = DefaultMessage.class)
     })

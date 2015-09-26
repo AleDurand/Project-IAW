@@ -30,12 +30,13 @@ public class UserController {
     @ApiOperation(
             value = "Creates a new user",
             notes = "",
-            response = UserModel.class
+            code = 201
     )
     @ApiResponses({
             @ApiResponse(code = 201, message = "User created", response = UserModel.class),
             @ApiResponse(code = 400, message = "Constrains fails", response = DefaultMessage.class)
     })
+    @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public ResponseEntity<UserModel> create(@RequestBody UserModel user) {
         userValidator.validateForCreate(user);
@@ -45,8 +46,7 @@ public class UserController {
 
     @ApiOperation(
             value = "Gets a user by id",
-            notes = "",
-            response = UserModel.class
+            notes = ""
     )
     @ApiResponses({
             @ApiResponse(code = 200, message = "User found", response = UserModel.class),
@@ -61,8 +61,7 @@ public class UserController {
 
     @ApiOperation(
             value = "Updates a user by id",
-            notes = "",
-            response = UserModel.class
+            notes = ""
     )
     @ApiResponses({
             @ApiResponse(code = 200, message = "User updated", response = UserModel.class),
@@ -78,13 +77,15 @@ public class UserController {
 
     @ApiOperation(
             value = "Deletes a user by id",
-            notes = ""
+            notes = "",
+            code = 204
     )
     @ApiResponses({
             @ApiResponse(code = 204, message = "User deleted"),
             @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "User has not been found", response = DefaultMessage.class)
     })
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         userService.delete(id);
@@ -93,12 +94,10 @@ public class UserController {
 
     @ApiOperation(
             value = "Gets all users",
-            notes = "",
-            response = UserModel.class,
-            responseContainer = "List"
+            notes = ""
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Users returned"),
+            @ApiResponse(code = 200, message = "Users returned", response = UserModel.class, responseContainer = "List"),
     })
     @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<List<UserModel>> getAll() {
@@ -108,12 +107,10 @@ public class UserController {
 
     @ApiOperation(
             value = "Gets all real estate agents belongs to a particular user",
-            notes = "",
-            response = RealEstateAgentModel.class,
-            responseContainer = "List"
+            notes = ""
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Real estate agents associated with the user"),
+            @ApiResponse(code = 200, message = "Real estate agents associated with the user", response = RealEstateAgentModel.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "User has not been found", response = DefaultMessage.class)
     })
@@ -125,12 +122,10 @@ public class UserController {
 
     @ApiOperation(
             value = "Associate a real estate agent with a particular user",
-            notes = "",
-            response = RealEstateAgentModel.class,
-            responseContainer = "List"
+            notes = ""
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Real estate agents associated with the user"),
+            @ApiResponse(code = 200, message = "Real estate agents associated with the user", response = RealEstateAgentModel.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid id or association already exists", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "User or real estate agent has not been found", response = DefaultMessage.class)
     })
@@ -142,12 +137,10 @@ public class UserController {
 
     @ApiOperation(
             value = "Removes the association between a user and a real estate agent",
-            notes = "",
-            response = RealEstateAgentModel.class,
-            responseContainer = "List"
+            notes = ""
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Real estate agents associated with the user"),
+            @ApiResponse(code = 200, message = "Real estate agents associated with the user", response = RealEstateAgentModel.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "User or real estate agent or association has not been found", response = DefaultMessage.class)
     })

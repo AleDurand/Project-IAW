@@ -31,12 +31,13 @@ public class RealEstateAgentController {
     @ApiOperation(
             value = "Creates a new real estate agent",
             notes = "",
-            response = RealEstateAgentModel.class
+            code = 201
     )
     @ApiResponses({
             @ApiResponse(code = 201, message = "RealEstateAgent created", response = RealEstateAgentModel.class),
             @ApiResponse(code = 400, message = "Constrains fails", response = DefaultMessage.class)
     })
+    @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public ResponseEntity<RealEstateAgentModel> create(@RequestBody RealEstateAgentModel realEstateAgent) {
         realEstateAgentValidator.validateForCreate(realEstateAgent);
@@ -46,11 +47,10 @@ public class RealEstateAgentController {
 
     @ApiOperation(
             value = "Returns a real estate agent by id",
-            notes = "",
-            response = RealEstateAgentModel.class
+            notes = ""
     )
     @ApiResponses({
-            @ApiResponse(code = 201, message = "RealEstateAgent has been found", response = RealEstateAgentModel.class),
+            @ApiResponse(code = 200, message = "RealEstateAgent has been found", response = RealEstateAgentModel.class),
             @ApiResponse(code = 400, message = "Invalid Id", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "RealEstateAgent has not been found", response = DefaultMessage.class)
     })
@@ -62,8 +62,7 @@ public class RealEstateAgentController {
 
     @ApiOperation(
             value = "Updates a real estate agent by id",
-            notes = "",
-            response = RealEstateAgentModel.class
+            notes = ""
     )
     @ApiResponses({
             @ApiResponse(code = 200, message = "RealEstateAgent updated", response = RealEstateAgentModel.class),
@@ -79,13 +78,15 @@ public class RealEstateAgentController {
 
     @ApiOperation(
             value = "Deletes a real estate agent by id",
-            notes = ""
+            notes = "",
+            code = 204
     )
     @ApiResponses({
             @ApiResponse(code = 204, message = "RealEstateAgent deleted"),
             @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "RealEstateAgent has not been found", response = DefaultMessage.class)
     })
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         realEstateAgentService.delete(id);
@@ -94,12 +95,10 @@ public class RealEstateAgentController {
 
     @ApiOperation(
             value = "Gets all real estate agents",
-            notes = "",
-            response = RealEstateAgentModel.class,
-            responseContainer = "List"
+            notes = ""
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message = "RealEstateAgents returned")
+            @ApiResponse(code = 200, message = "RealEstateAgents returned", response = RealEstateAgentModel.class, responseContainer = "List")
     })
     @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<List<RealEstateAgentModel>> getAll() {
@@ -109,12 +108,10 @@ public class RealEstateAgentController {
 
     @ApiOperation(
             value = "Gets all offices belongs to a particular real estate agent",
-            notes = "",
-            response = OfficeModel.class,
-            responseContainer = "List"
+            notes = ""
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Offices associated with the real estate agent"),
+            @ApiResponse(code = 200, message = "Offices associated with the real estate agent", response = OfficeModel.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "Real estate agent has not been found", response = DefaultMessage.class)
     })
@@ -126,12 +123,10 @@ public class RealEstateAgentController {
 
     @ApiOperation(
             value = "Associate a office with a particular real estate agent",
-            notes = "",
-            response = OfficeModel.class,
-            responseContainer = "List"
+            notes = ""
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Offices associated with the real estate agent"),
+            @ApiResponse(code = 200, message = "Offices associated with the real estate agent", response = OfficeModel.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid id or association already exists", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "Real estate agent or office has not been found", response = DefaultMessage.class)
     })
@@ -143,12 +138,10 @@ public class RealEstateAgentController {
 
     @ApiOperation(
             value = "Removes the association between a real estate agent and an office",
-            notes = "",
-            response = OfficeModel.class,
-            responseContainer = "List"
+            notes = ""
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Offices associated with the real estate agent"),
+            @ApiResponse(code = 200, message = "Offices associated with the real estate agent", response = OfficeModel.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "Real estate agent or office or association has not been found", response = DefaultMessage.class)
     })
@@ -160,12 +153,10 @@ public class RealEstateAgentController {
 
     @ApiOperation(
             value = "Gets all properties belongs to a particular real estate agent",
-            notes = "",
-            response = PropertyModel.class,
-            responseContainer = "List"
+            notes = ""
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Properties associated with the real estate agent"),
+            @ApiResponse(code = 200, message = "Properties associated with the real estate agent", response = PropertyModel.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "Real estate agent has not been found", response = DefaultMessage.class)
     })
@@ -177,12 +168,10 @@ public class RealEstateAgentController {
 
     @ApiOperation(
             value = "Associate a property with a particular real estate agent",
-            notes = "",
-            response = PropertyModel.class,
-            responseContainer = "List"
+            notes = ""
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Properties associated with the real estate agent"),
+            @ApiResponse(code = 200, message = "Properties associated with the real estate agent", response = PropertyModel.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid id or association already exists", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "Real estate agent or property has not been found", response = DefaultMessage.class)
     })
@@ -194,12 +183,10 @@ public class RealEstateAgentController {
 
     @ApiOperation(
             value = "Removes the association between a real estate agent and a property",
-            notes = "",
-            response = PropertyModel.class,
-            responseContainer = "List"
+            notes = ""
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Properties associated with the real estate agent"),
+            @ApiResponse(code = 200, message = "Properties associated with the real estate agent", response = PropertyModel.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "Real estate agent or property or association has not been found", response = DefaultMessage.class)
     })

@@ -29,12 +29,13 @@ public class OfficeController {
     @ApiOperation(
             value = "Creates a new office",
             notes = "",
-            response = OfficeModel.class
+            code = 201
     )
     @ApiResponses({
             @ApiResponse(code = 201, message = "Office created", response = OfficeModel.class),
             @ApiResponse(code = 400, message = "Constrains fails", response = DefaultMessage.class)
     })
+    @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public ResponseEntity<OfficeModel> create(@RequestBody OfficeModel office) {
         officeValidator.validateForCreate(office);
@@ -44,11 +45,10 @@ public class OfficeController {
 
     @ApiOperation(
             value = "Returns an office by id",
-            notes = "",
-            response = OfficeModel.class
+            notes = ""
     )
     @ApiResponses({
-            @ApiResponse(code = 201, message = "Office has been found", response = OfficeModel.class),
+            @ApiResponse(code = 200, message = "Office has been found", response = OfficeModel.class),
             @ApiResponse(code = 400, message = "Invalid Id", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "Office has not been found", response = OfficeModel.class)
     })
@@ -60,8 +60,7 @@ public class OfficeController {
 
     @ApiOperation(
             value = "Updates an office by id",
-            notes = "",
-            response = CategoryModel.class
+            notes = ""
     )
     @ApiResponses({
             @ApiResponse(code = 200, message = "Office updated", response = OfficeModel.class),
@@ -77,13 +76,15 @@ public class OfficeController {
 
     @ApiOperation(
             value = "Deletes an office by id",
-            notes = ""
+            notes = "",
+            code = 204
     )
     @ApiResponses({
             @ApiResponse(code = 204, message = "Office deleted"),
             @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "Office has not been found", response = DefaultMessage.class)
     })
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         officeService.delete(id);
@@ -92,12 +93,10 @@ public class OfficeController {
 
     @ApiOperation(
             value = "Gets all offices",
-            notes = "",
-            response = OfficeModel.class,
-            responseContainer = "List"
+            notes = ""
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Offices returned")
+            @ApiResponse(code = 200, message = "Offices returned", response = OfficeModel.class, responseContainer = "List")
     })
     @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<List<OfficeModel>> getAll() {
