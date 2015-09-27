@@ -50,7 +50,7 @@ public class CategoryController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "Category has been found", response = CategoryModel.class),
             @ApiResponse(code = 400, message = "Invalid Id", response = DefaultMessage.class),
-            @ApiResponse(code = 404, message = "Category has not been found", response = CategoryModel.class)
+            @ApiResponse(code = 404, message = "Category has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<CategoryModel> read(@PathVariable Integer id) {

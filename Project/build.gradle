@@ -99,7 +99,7 @@ asciidoctor {
     sources {
         include 'index.adoc'
     }
-    backends = ['pdf', 'html5']
+    backends = ['pdf']
     attributes = [
             doctype    : 'book',
             toc        : 'left',

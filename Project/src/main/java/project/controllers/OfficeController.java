@@ -50,7 +50,7 @@ public class OfficeController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "Office has been found", response = OfficeModel.class),
             @ApiResponse(code = 400, message = "Invalid Id", response = DefaultMessage.class),
-            @ApiResponse(code = 404, message = "Office has not been found", response = OfficeModel.class)
+            @ApiResponse(code = 404, message = "Office has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<OfficeModel> read(@PathVariable Integer id) {
