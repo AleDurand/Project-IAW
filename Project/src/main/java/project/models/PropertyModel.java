@@ -12,34 +12,28 @@ import java.util.List;
 @Table(name = "property")
 @ApiModel(value = "Property", description = "Property representation")
 public class PropertyModel {
-    @Enumerated(EnumType.STRING)
-    @Column(name = "state", columnDefinition = "ENUM('AVAILABLE', 'UNAVAILABLE')")
-    public StateEnum state;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
     @ApiModelProperty(name = "Id", value = "Property id", required = false)
     private Integer id;
-
     @OneToOne
     @JoinColumn(name = "address_id")
     @ApiModelProperty(name = "Address", value = "Property address", required = true)
     private AddressModel address;
-
     @Column(name = "description")
     @ApiModelProperty(name = "Description", value = "Property description", required = false)
     private String description;
-
     @Column(name = "rooms")
     @ApiModelProperty(name = "Rooms", value = "Property rooms", required = false)
     private Integer rooms;
-
     @Column(name = "size")
     @ApiModelProperty(name = "Size", value = "Property size", required = false)
     private Integer size;
-
-
+    @Column(name = "state", columnDefinition = "ENUM('AVAILABLE', 'UNAVAILABLE')")
+    @ApiModelProperty(name = "State", value = "Property state", required = true, allowableValues = "AVAILABLE,UNAVAILABLE")
+    public String state;
     @ElementCollection
     @CollectionTable(
             name = "operation",
@@ -60,7 +54,7 @@ public class PropertyModel {
 
     }
 
-    public PropertyModel(StateEnum state, AddressModel address, String description, Integer rooms, Integer size, List<OperationModel> operation) {
+    public PropertyModel(String state, AddressModel address, String description, Integer rooms, Integer size, List<OperationModel> operation) {
         this.state = state;
         this.address = address;
         this.description = description;
@@ -109,11 +103,11 @@ public class PropertyModel {
         this.size = size;
     }
 
-    public StateEnum getState() {
+    public String getState() {
         return state;
     }
 
-    public void setState(StateEnum state) {
+    public void setState(String state) {
         this.state = state;
     }
 
@@ -132,6 +126,4 @@ public class PropertyModel {
     public void setCategories(List<CategoryModel> categories) {
         this.categories = categories;
     }
-
-    public enum StateEnum {AVAILABLE, UNAVAILABLE}
 }

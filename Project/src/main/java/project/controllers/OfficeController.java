@@ -9,10 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.exceptions.messages.DefaultMessage;
-import project.models.CategoryModel;
 import project.models.OfficeModel;
 import project.services.OfficeService;
 import project.validators.OfficeModelValidator;
+import project.validators.Validator;
 
 import java.util.List;
 
@@ -53,8 +53,9 @@ public class OfficeController {
             @ApiResponse(code = 404, message = "Office has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<OfficeModel> read(@PathVariable Integer id) {
-        OfficeModel toReturn = officeService.read(id);
+    public ResponseEntity<OfficeModel> read(@PathVariable String id) {
+        int officeId = Validator.validateId(id);
+        OfficeModel toReturn = officeService.read(officeId);
         return new ResponseEntity<>(toReturn, HttpStatus.OK);
     }
 
@@ -68,9 +69,10 @@ public class OfficeController {
             @ApiResponse(code = 404, message = "Office has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
-    public ResponseEntity<OfficeModel> update(@PathVariable Integer id, @RequestBody OfficeModel office) {
+    public ResponseEntity<OfficeModel> update(@PathVariable String id, @RequestBody OfficeModel office) {
+        int officeId = Validator.validateId(id);
         officeValidator.validateForUpdate(office);
-        OfficeModel toReturn = officeService.update(id, office);
+        OfficeModel toReturn = officeService.update(officeId, office);
         return new ResponseEntity<>(toReturn, HttpStatus.OK);
     }
 
@@ -86,8 +88,9 @@ public class OfficeController {
     })
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        officeService.delete(id);
+    public ResponseEntity<Void> delete(@PathVariable String id) {
+        int officeId = Validator.validateId(id);
+        officeService.delete(officeId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

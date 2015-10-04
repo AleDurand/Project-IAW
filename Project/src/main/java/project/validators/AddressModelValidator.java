@@ -1,11 +1,15 @@
 package project.validators;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import project.exceptions.InvalidEntityConstraintsException;
 import project.models.AddressModel;
 
 @Component
 public class AddressModelValidator {
+
+    @Autowired
+    private GeoLocationModelValidator geoLocationValidator;
 
     public void validateForCreate(AddressModel address) throws InvalidEntityConstraintsException {
         if (address.getStreet() == null || address.getStreet().isEmpty())
@@ -23,8 +27,7 @@ public class AddressModelValidator {
         if (address.getGeoLocation() == null)
             throw new InvalidEntityConstraintsException("Address", "Geolocation is null.");
 
-        if (address.getGeoLocation().getLatitude() == null || address.getGeoLocation().getLongitude() == null)
-            throw new InvalidEntityConstraintsException("Address", "Geolocation is not complete.");
+        geoLocationValidator.validateForCreate(address.getGeoLocation());
     }
 
     public void validateForUpdate(AddressModel address) throws InvalidEntityConstraintsException {
@@ -38,7 +41,6 @@ public class AddressModelValidator {
             throw new InvalidEntityConstraintsException("Address", "ZipCode is less than 0.");
 
         if (address.getGeoLocation() != null)
-            if (address.getGeoLocation().getLatitude() == null || address.getGeoLocation().getLongitude() == null)
-                throw new InvalidEntityConstraintsException("Address", "Geolocation is not complete.");
+            geoLocationValidator.validateForUpdate(address.getGeoLocation());
     }
 }

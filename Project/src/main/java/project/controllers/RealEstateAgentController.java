@@ -14,6 +14,7 @@ import project.models.PropertyModel;
 import project.models.RealEstateAgentModel;
 import project.services.RealEstateAgentService;
 import project.validators.RealEstateAgentModelValidator;
+import project.validators.Validator;
 
 import java.util.List;
 
@@ -55,8 +56,9 @@ public class RealEstateAgentController {
             @ApiResponse(code = 404, message = "RealEstateAgent has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<RealEstateAgentModel> read(@PathVariable Integer id) {
-        RealEstateAgentModel toReturn = realEstateAgentService.read(id);
+    public ResponseEntity<RealEstateAgentModel> read(@PathVariable String id) {
+        int realEstateAgentId = Validator.validateId(id);
+        RealEstateAgentModel toReturn = realEstateAgentService.read(realEstateAgentId);
         return new ResponseEntity<>(toReturn, HttpStatus.OK);
     }
 
@@ -70,9 +72,10 @@ public class RealEstateAgentController {
             @ApiResponse(code = 404, message = "RealEstateAgent has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
-    public ResponseEntity<RealEstateAgentModel> update(@PathVariable Integer id, @RequestBody RealEstateAgentModel realEstateAgent) {
+    public ResponseEntity<RealEstateAgentModel> update(@PathVariable String id, @RequestBody RealEstateAgentModel realEstateAgent) {
+        int realEstateAgentId = Validator.validateId(id);
         realEstateAgentValidator.validateForUpdate(realEstateAgent);
-        RealEstateAgentModel toReturn = realEstateAgentService.update(id, realEstateAgent);
+        RealEstateAgentModel toReturn = realEstateAgentService.update(realEstateAgentId, realEstateAgent);
         return new ResponseEntity<>(toReturn, HttpStatus.OK);
     }
 
@@ -88,8 +91,9 @@ public class RealEstateAgentController {
     })
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        realEstateAgentService.delete(id);
+    public ResponseEntity<Void> delete(@PathVariable String id) {
+        int realEstateAgentId = Validator.validateId(id);
+        realEstateAgentService.delete(realEstateAgentId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -111,28 +115,31 @@ public class RealEstateAgentController {
             notes = ""
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Offices associated with the real estate agent", response = OfficeModel.class, responseContainer = "List"),
+            @ApiResponse(code = 200, message = "Returns the offices associated with the real estate agent", response = OfficeModel.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "Real estate agent has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{id}/offices", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<List<OfficeModel>> getOffices(@PathVariable Integer id) {
-        List<OfficeModel> offices = realEstateAgentService.getOffices(id);
+    public ResponseEntity<List<OfficeModel>> getOffices(@PathVariable String id) {
+        int realEstateAgentId = Validator.validateId(id);
+        List<OfficeModel> offices = realEstateAgentService.getOffices(realEstateAgentId);
         return new ResponseEntity<>(offices, HttpStatus.OK);
     }
 
     @ApiOperation(
-            value = "Associate a office with a particular real estate agent",
+            value = "Associates an office with a particular real estate agent",
             notes = ""
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Offices associated with the real estate agent", response = OfficeModel.class, responseContainer = "List"),
+            @ApiResponse(code = 200, message = "Associates an office to the real estate agent and returns the offices associated", response = OfficeModel.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid id or association already exists", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "Real estate agent or office has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{realEstateAgentId}/offices/{officeId}", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<List<OfficeModel>> addOffice(@PathVariable Integer realEstateAgentId, @PathVariable Integer officeId) {
-        List<OfficeModel> offices = realEstateAgentService.addOffice(realEstateAgentId, officeId);
+    public ResponseEntity<List<OfficeModel>> addOffice(@PathVariable String realEstateAgentId, @PathVariable String officeId) {
+        int realEstateAgentIdValidated = Validator.validateId(realEstateAgentId);
+        int officeIdValidated = Validator.validateId(officeId);
+        List<OfficeModel> offices = realEstateAgentService.addOffice(realEstateAgentIdValidated, officeIdValidated);
         return new ResponseEntity<>(offices, HttpStatus.OK);
     }
 
@@ -141,13 +148,15 @@ public class RealEstateAgentController {
             notes = ""
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Offices associated with the real estate agent", response = OfficeModel.class, responseContainer = "List"),
+            @ApiResponse(code = 200, message = "Deletes an association and returns the offices associated with the real estate agent", response = OfficeModel.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "Real estate agent or office or association has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{realEstateAgentId}/offices/{officeId}", method = RequestMethod.DELETE, produces = "application/json")
-    public ResponseEntity<List<OfficeModel>> deleteOffice(@PathVariable Integer realEstateAgentId, @PathVariable Integer officeId) {
-        List<OfficeModel> offices = realEstateAgentService.deleteOffice(realEstateAgentId, officeId);
+    public ResponseEntity<List<OfficeModel>> deleteOffice(@PathVariable String realEstateAgentId, @PathVariable String officeId) {
+        int realEstateAgentIdValidated = Validator.validateId(realEstateAgentId);
+        int officeIdValidated = Validator.validateId(officeId);
+        List<OfficeModel> offices = realEstateAgentService.deleteOffice(realEstateAgentIdValidated, officeIdValidated);
         return new ResponseEntity<>(offices, HttpStatus.NO_CONTENT);
     }
 
@@ -156,28 +165,31 @@ public class RealEstateAgentController {
             notes = ""
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Properties associated with the real estate agent", response = PropertyModel.class, responseContainer = "List"),
+            @ApiResponse(code = 200, message = "Returns the the properties associated with the real estate agent", response = PropertyModel.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "Real estate agent has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{id}/properties", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<List<PropertyModel>> getProperties(@PathVariable Integer id) {
-        List<PropertyModel> properties = realEstateAgentService.getProperties(id);
+    public ResponseEntity<List<PropertyModel>> getProperties(@PathVariable String id) {
+        int realEstateAgentId = Validator.validateId(id);
+        List<PropertyModel> properties = realEstateAgentService.getProperties(realEstateAgentId);
         return new ResponseEntity<>(properties, HttpStatus.OK);
     }
 
     @ApiOperation(
-            value = "Associate a property with a particular real estate agent",
+            value = "Associates a property with a particular real estate agent",
             notes = ""
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Properties associated with the real estate agent", response = PropertyModel.class, responseContainer = "List"),
+            @ApiResponse(code = 200, message = "Associates a property to the real estate agent and returns the properties associated", response = PropertyModel.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid id or association already exists", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "Real estate agent or property has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{realEstateAgentId}/properties/{propertyId}", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<List<PropertyModel>> addProperty(@PathVariable Integer realEstateAgentId, @PathVariable Integer propertyId) {
-        List<PropertyModel> properties = realEstateAgentService.addProperty(realEstateAgentId, propertyId);
+    public ResponseEntity<List<PropertyModel>> addProperty(@PathVariable String realEstateAgentId, @PathVariable String propertyId) {
+        int realEstateAgentIdValidated = Validator.validateId(realEstateAgentId);
+        int propertyIdValidated = Validator.validateId(propertyId);
+        List<PropertyModel> properties = realEstateAgentService.addProperty(realEstateAgentIdValidated, propertyIdValidated);
         return new ResponseEntity<>(properties, HttpStatus.OK);
     }
 
@@ -186,13 +198,15 @@ public class RealEstateAgentController {
             notes = ""
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Properties associated with the real estate agent", response = PropertyModel.class, responseContainer = "List"),
+            @ApiResponse(code = 200, message = "Deletes an association and returns the properties associated with the real estate agent", response = PropertyModel.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "Real estate agent or property or association has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{realEstateAgentId}/properties/{propertyId}", method = RequestMethod.DELETE, produces = "application/json")
-    public ResponseEntity<List<PropertyModel>> deleteProperty(@PathVariable Integer realEstateAgentId, @PathVariable Integer propertyId) {
-        List<PropertyModel> properties = realEstateAgentService.deleteProperty(realEstateAgentId, propertyId);
+    public ResponseEntity<List<PropertyModel>> deleteProperty(@PathVariable String realEstateAgentId, @PathVariable String propertyId) {
+        int realEstateAgentIdValidated = Validator.validateId(realEstateAgentId);
+        int propertyIdValidated = Validator.validateId(propertyId);
+        List<PropertyModel> properties = realEstateAgentService.deleteProperty(realEstateAgentIdValidated, propertyIdValidated);
         return new ResponseEntity<>(properties, HttpStatus.OK);
     }
 }

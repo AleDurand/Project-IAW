@@ -13,6 +13,7 @@ import project.models.CategoryModel;
 import project.models.PropertyModel;
 import project.services.PropertyService;
 import project.validators.PropertyModelValidator;
+import project.validators.Validator;
 
 import java.util.List;
 
@@ -54,8 +55,9 @@ public class PropertyController {
             @ApiResponse(code = 404, message = "Property has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<PropertyModel> read(@PathVariable Integer id) {
-        PropertyModel toReturn = propertyService.read(id);
+    public ResponseEntity<PropertyModel> read(@PathVariable String id) {
+        int propertyId = Validator.validateId(id);
+        PropertyModel toReturn = propertyService.read(propertyId);
         return new ResponseEntity<>(toReturn, HttpStatus.OK);
     }
 
@@ -69,9 +71,10 @@ public class PropertyController {
             @ApiResponse(code = 404, message = "Property has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
-    public ResponseEntity<PropertyModel> update(@PathVariable Integer id, @RequestBody PropertyModel property) {
+    public ResponseEntity<PropertyModel> update(@PathVariable String id, @RequestBody PropertyModel property) {
+        int propertyId = Validator.validateId(id);
         propertyValidator.validateForUpdate(property);
-        PropertyModel toReturn = propertyService.update(id, property);
+        PropertyModel toReturn = propertyService.update(propertyId, property);
         return new ResponseEntity<>(toReturn, HttpStatus.OK);
     }
 
@@ -87,8 +90,9 @@ public class PropertyController {
     })
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        propertyService.delete(id);
+    public ResponseEntity<Void> delete(@PathVariable String id) {
+        int propertyId = Validator.validateId(id);
+        propertyService.delete(propertyId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -110,28 +114,31 @@ public class PropertyController {
             notes = ""
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Categories associated with the property", response = CategoryModel.class, responseContainer = "List"),
+            @ApiResponse(code = 200, message = "Returns the categories associated with the property", response = CategoryModel.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "Real estate agent has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{id}/categories", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<List<CategoryModel>> getCategories(@PathVariable Integer id) {
-        List<CategoryModel> categories = propertyService.getCategories(id);
+    public ResponseEntity<List<CategoryModel>> getCategories(@PathVariable String id) {
+        int propertyId = Validator.validateId(id);
+        List<CategoryModel> categories = propertyService.getCategories(propertyId);
         return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 
     @ApiOperation(
-            value = "Associate a category with a particular property",
+            value = "Associates a category with a particular property",
             notes = ""
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Categories associated with the property", response = CategoryModel.class, responseContainer = "List"),
+            @ApiResponse(code = 200, message = "Associates a category to the property and returns the categories associated", response = CategoryModel.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid id or association already exists", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "Category or property has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{propertyId}/categories/{categoryId}", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<List<CategoryModel>> addCategory(@PathVariable Integer propertyId, @PathVariable Integer categoryId) {
-        List<CategoryModel> categories = propertyService.addCategory(propertyId, categoryId);
+    public ResponseEntity<List<CategoryModel>> addCategory(@PathVariable String propertyId, @PathVariable String categoryId) {
+        int propertyIdValidated = Validator.validateId(propertyId);
+        int categoryIdValidated = Validator.validateId(categoryId);
+        List<CategoryModel> categories = propertyService.addCategory(propertyIdValidated, categoryIdValidated);
         return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 
@@ -140,13 +147,15 @@ public class PropertyController {
             notes = ""
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Categories associated with the property", response = CategoryModel.class, responseContainer = "List"),
+            @ApiResponse(code = 200, message = "Deletes an association and returns the categories associated with the property", response = CategoryModel.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "Category or property or association has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{propertyId}/categories/{categoryId}", method = RequestMethod.DELETE, produces = "application/json")
-    public ResponseEntity<List<CategoryModel>> deleteCategory(@PathVariable Integer propertyId, @PathVariable Integer categoryId) {
-        List<CategoryModel> categories = propertyService.deleteCategory(propertyId, categoryId);
+    public ResponseEntity<List<CategoryModel>> deleteCategory(@PathVariable String propertyId, @PathVariable String categoryId) {
+        int propertyIdValidated = Validator.validateId(propertyId);
+        int categoryIdValidated = Validator.validateId(categoryId);
+        List<CategoryModel> categories = propertyService.deleteCategory(propertyIdValidated, categoryIdValidated);
         return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 }

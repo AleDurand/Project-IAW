@@ -10,10 +10,9 @@ import java.util.regex.Pattern;
 @Component
 public class OfficeModelValidator {
 
+    private static final String PHONE_PATTERN = "^\\+[0-9]{1,3}\\-[0-9]{2,14}\\-[0-9]{4,14}$";
     @Autowired
     private AddressModelValidator addressValidator;
-
-    private static final String PHONE_PATTERN = "^\\+[0-9]{1,3}\\-[0-9]{2,14}\\-[0-9]{4,14}$";
 
     public void validateForCreate(OfficeModel office) throws InvalidEntityConstraintsException {
         if (office.getName() == null || office.getName().isEmpty())

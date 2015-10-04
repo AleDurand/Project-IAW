@@ -12,6 +12,7 @@ import project.exceptions.messages.DefaultMessage;
 import project.models.CategoryModel;
 import project.services.CategoryService;
 import project.validators.CategoryModelValidator;
+import project.validators.Validator;
 
 import java.util.List;
 
@@ -53,8 +54,9 @@ public class CategoryController {
             @ApiResponse(code = 404, message = "Category has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<CategoryModel> read(@PathVariable Integer id) {
-        CategoryModel toReturn = categoryService.read(id);
+    public ResponseEntity<CategoryModel> read(@PathVariable String id) {
+        int categoryId = Validator.validateId(id);
+        CategoryModel toReturn = categoryService.read(categoryId);
         return new ResponseEntity<>(toReturn, HttpStatus.OK);
     }
 
@@ -68,9 +70,10 @@ public class CategoryController {
             @ApiResponse(code = 404, message = "Category has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
-    public ResponseEntity<CategoryModel> update(@PathVariable Integer id, @RequestBody CategoryModel category) {
+    public ResponseEntity<CategoryModel> update(@PathVariable String id, @RequestBody CategoryModel category) {
+        int categoryId = Validator.validateId(id);
         categoryValidator.validateForUpdate(category);
-        CategoryModel toReturn = categoryService.update(id, category);
+        CategoryModel toReturn = categoryService.update(categoryId, category);
         return new ResponseEntity<>(toReturn, HttpStatus.OK);
     }
 
@@ -86,8 +89,9 @@ public class CategoryController {
     })
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        categoryService.delete(id);
+    public ResponseEntity<Void> delete(@PathVariable String id) {
+        int categoryId = Validator.validateId(id);
+        categoryService.delete(categoryId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

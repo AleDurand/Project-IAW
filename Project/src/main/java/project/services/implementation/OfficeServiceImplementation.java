@@ -17,7 +17,7 @@ public class OfficeServiceImplementation implements OfficeService {
 
     @Autowired
     private AddressRepository addressRepository;
-    
+
     @Override
     public OfficeModel create(OfficeModel office) {
         office.setAddress(addressRepository.save(office.getAddress()));

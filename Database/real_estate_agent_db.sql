@@ -146,7 +146,7 @@ CREATE TABLE IF NOT EXISTS `real_estate_agent_db`.`operation` (
   `type` ENUM('FOR_SALE','FOR_RENT') NOT NULL COMMENT '',
   `price` DECIMAL NOT NULL COMMENT '',
   `property_id` INT NOT NULL COMMENT '',
-  PRIMARY KEY (`property_id`)  COMMENT '',
+  PRIMARY KEY (`property_id`, `type`)  COMMENT '',
   INDEX `fk_operation_property1_idx` (`property_id` ASC)  COMMENT '',
   CONSTRAINT `fk_operation_property1`
     FOREIGN KEY (`property_id`)

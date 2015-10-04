@@ -13,6 +13,7 @@ import project.models.RealEstateAgentModel;
 import project.models.UserModel;
 import project.services.UserService;
 import project.validators.UserModelValidator;
+import project.validators.Validator;
 
 import java.util.List;
 
@@ -54,8 +55,9 @@ public class UserController {
             @ApiResponse(code = 404, message = "User has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<UserModel> read(@PathVariable Integer id) {
-        UserModel toReturn = userService.read(id);
+    public ResponseEntity<UserModel> read(@PathVariable String id) {
+        int userId = Validator.validateId(id);
+        UserModel toReturn = userService.read(userId);
         return new ResponseEntity<>(toReturn, HttpStatus.OK);
     }
 
@@ -69,9 +71,10 @@ public class UserController {
             @ApiResponse(code = 404, message = "User has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
-    public ResponseEntity<UserModel> update(@PathVariable Integer id, @RequestBody UserModel user) {
+    public ResponseEntity<UserModel> update(@PathVariable String id, @RequestBody UserModel user) {
+        int userId = Validator.validateId(id);
         userValidator.validateForUpdate(user);
-        UserModel toReturn = userService.update(id, user);
+        UserModel toReturn = userService.update(userId, user);
         return new ResponseEntity<>(toReturn, HttpStatus.OK);
     }
 
@@ -87,8 +90,9 @@ public class UserController {
     })
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        userService.delete(id);
+    public ResponseEntity<Void> delete(@PathVariable String id) {
+        int userId = Validator.validateId(id);
+        userService.delete(userId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -110,28 +114,31 @@ public class UserController {
             notes = ""
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Real estate agents associated with the user", response = RealEstateAgentModel.class, responseContainer = "List"),
+            @ApiResponse(code = 200, message = "Returns the real estate agents associated with the user", response = RealEstateAgentModel.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "User has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{id}/real-estate-agents", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<List<RealEstateAgentModel>> getRealEstateAgents(@PathVariable Integer id) {
-        List<RealEstateAgentModel> realEstateAgents = userService.getRealEstateAgents(id);
+    public ResponseEntity<List<RealEstateAgentModel>> getRealEstateAgents(@PathVariable String id) {
+        int userId = Validator.validateId(id);
+        List<RealEstateAgentModel> realEstateAgents = userService.getRealEstateAgents(userId);
         return new ResponseEntity<>(realEstateAgents, HttpStatus.OK);
     }
 
     @ApiOperation(
-            value = "Associate a real estate agent with a particular user",
+            value = "Associates a real estate agent with a particular user",
             notes = ""
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Real estate agents associated with the user", response = RealEstateAgentModel.class, responseContainer = "List"),
+            @ApiResponse(code = 200, message = "Associates a real estate agent to the user and returns the real estate agents associated", response = RealEstateAgentModel.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid id or association already exists", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "User or real estate agent has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{userId}/real-estate-agents/{realEstateAgentId}", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<List<RealEstateAgentModel>> addRealEstateAgent(@PathVariable Integer userId, @PathVariable Integer realEstateAgentId) {
-        List<RealEstateAgentModel> realEstateAgents = userService.addRealEstateAgents(userId, realEstateAgentId);
+    public ResponseEntity<List<RealEstateAgentModel>> addRealEstateAgent(@PathVariable String userId, @PathVariable String realEstateAgentId) {
+        int userIdValidated = Validator.validateId(userId);
+        int realEstateAgentIdValidated = Validator.validateId(realEstateAgentId);
+        List<RealEstateAgentModel> realEstateAgents = userService.addRealEstateAgents(userIdValidated, realEstateAgentIdValidated);
         return new ResponseEntity<>(realEstateAgents, HttpStatus.OK);
     }
 
@@ -140,13 +147,15 @@ public class UserController {
             notes = ""
     )
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Real estate agents associated with the user", response = RealEstateAgentModel.class, responseContainer = "List"),
+            @ApiResponse(code = 200, message = "Deletes an association and returns real estate agents associated with the user", response = RealEstateAgentModel.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid id", response = DefaultMessage.class),
             @ApiResponse(code = 404, message = "User or real estate agent or association has not been found", response = DefaultMessage.class)
     })
     @RequestMapping(value = "/{userId}/real-estate-agents/{realEstateAgentId}", method = RequestMethod.DELETE, produces = "application/json")
-    public ResponseEntity<List<RealEstateAgentModel>> deleteRealEstateAgent(@PathVariable Integer userId, @PathVariable Integer realEstateAgentId) {
-        List<RealEstateAgentModel> realEstateAgents = userService.deleteRealEstateAgent(userId, realEstateAgentId);
+    public ResponseEntity<List<RealEstateAgentModel>> deleteRealEstateAgent(@PathVariable String userId, @PathVariable String realEstateAgentId) {
+        int userIdValidated = Validator.validateId(userId);
+        int realEstateAgentIdValidated = Validator.validateId(realEstateAgentId);
+        List<RealEstateAgentModel> realEstateAgents = userService.deleteRealEstateAgent(userIdValidated, realEstateAgentIdValidated);
         return new ResponseEntity<>(realEstateAgents, HttpStatus.OK);
     }
 }
