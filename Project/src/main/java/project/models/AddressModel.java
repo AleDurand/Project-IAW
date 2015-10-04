@@ -37,6 +37,7 @@ public class AddressModel implements Serializable {
     private Integer zipCode;
 
     @Embedded
+    @ApiModelProperty(name = "Geolocation", value = "Address geolocation for google maps", required = true)
     private GeoLocationModel geoLocation;
 
     public AddressModel() {
